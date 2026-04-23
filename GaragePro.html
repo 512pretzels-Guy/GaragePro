@@ -16,19 +16,16 @@
         
         body { font-family: -apple-system, system-ui, sans-serif; margin: 0; background-color: #e9ecef; font-size: 1.5rem; overscroll-behavior-y: contain; text-align: left; }
 
-        /* Navigation */
         .navbar { background: var(--dark); color: white; padding: 10px 20px; display: flex; align-items: center; height: 70px; position: sticky; top: 0; z-index: 1000; }
         .hamburger { font-size: 2.5rem; cursor: pointer; background: none; border: none; color: white; margin-right: 15px; }
         
         .side-menu { height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.3s; padding-top: 60px; }
-        .side-menu a, .side-menu label { padding: 15px 25px; text-decoration: none; font-size: 1.6rem; color: #818181; display: block; cursor: pointer; text-align: left; }
+        .side-menu a, .side-menu label { padding: 15px 25px; text-decoration: none; font-size: 1.6rem; color: #818181; display: block; cursor: pointer; }
         .closebtn { position: absolute; top: 0; right: 25px; font-size: 50px; color: white; }
 
-        /* Layout Containers */
         .container { max-width: 900px; margin: auto; padding: 15px; }
         .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: flex-start; }
         
-        /* Unified Gallery Styling */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; margin: 10px 0; }
         .slot { position: relative; width: 100%; padding-top: 100%; background: #eee; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; cursor: pointer; }
         .slot img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -36,22 +33,27 @@
         .slot.has-img::after { display: none; }
         .btn-img-del { position: absolute; top: 2px; right: 2px; background: var(--danger); color: white; border: none; border-radius: 4px; padding: 2px 6px; font-size: 0.8rem; z-index: 5; }
 
-        /* Form Inputs - Stacked Left */
+        .specs-container { background: var(--parchment); border: 1px solid #ccc; border-radius: 12px; margin-bottom: 20px; overflow: hidden; width: 100%; }
+        .specs-header { background: #eee; padding: 15px; font-weight: bold; cursor: pointer; border-bottom: 3px solid var(--primary); display: flex; align-items: center; }
+        .specs-header::before { content: '▶'; margin-right: 10px; transition: 0.2s; }
+        .specs-header.active::before { transform: rotate(90deg); }
+        .collapse-content { display: none; padding: 15px; }
+        .collapse-content.show { display: block; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        td, th { padding: 10px; border-bottom: 1px solid #eee; text-align: left; font-size: 1.1rem; }
         .field-group { width: 100%; display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 15px; }
-        label { font-size: 1rem; font-weight: bold; color: var(--grey); margin-bottom: 5px; }
-        input, select, textarea { width: 100%; padding: 15px; border: 1px solid #bbb; border-radius: 8px; font-size: 1.3rem; box-sizing: border-box; text-align: left; }
+        input, select, textarea { width: 100%; padding: 15px; border: 1px solid #bbb; border-radius: 8px; font-size: 1.3rem; box-sizing: border-box; }
         
-        .btn { padding: 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.2rem; margin-top: 10px; }
+        .btn { padding: 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.2rem; margin-top: 5px; }
         .btn-success { background: var(--success); color: white; }
         .btn-danger-sm { background: var(--danger); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; }
         .btn-edit-sm { background: var(--edit); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; }
+        .btn-inline { background: none; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; padding: 10px 0; }
 
-        /* Log Entry Styling */
         .log-entry { border-left: 12px solid var(--royal); padding: 15px; margin-bottom: 20px; background: #fff; border-radius: 0 12px 12px 0; width: 100%; box-sizing: border-box; }
-        .log-header { display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 10px; }
-        .log-work-title { font-weight: 800; font-size: 1.6rem; color: #222; margin: 5px 0; text-align: left; }
-        .mileage-badge { background: var(--royal); color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 1.1rem; }
-        .log-notes-text { font-size: 1.2rem; color: #444; white-space: pre-wrap; text-align: left; margin: 10px 0; }
+        .log-header { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+        .mileage-badge { background: var(--royal); color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
         
         .hidden { display: none !important; }
     </style>
@@ -62,7 +64,8 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a onclick="exportData()">📤 Export Backup</a>
     <label for="importFile">📥 Import Backup<input type="file" id="importFile" class="hidden" onchange="importData(event)"></label>
-    <a onclick="closeApp()">🚪 Close App</a> <a onclick="wipeData()" style="color:var(--danger);">⚠️ Wipe Data</a>
+    <a onclick="closeApp()">🚪 Close App</a>
+    <a onclick="wipeData()" style="color:var(--danger);">⚠️ Wipe Data</a>
 </div>
 
 <div class="navbar">
@@ -73,45 +76,65 @@
 <div class="container">
     <div class="card">
         <div class="field-group">
-            <label>VEHICLE</label>
+            <label style="font-weight:bold; color:var(--grey);">VEHICLE</label>
             <select id="vehicleSelector" onchange="switchVehicle()"></select>
         </div>
-        <button class="btn-inline" style="background:none; border:none; color:var(--primary); font-size:1.2rem; cursor:pointer;" onclick="toggleNewVehicleForm()">+ Add New Vehicle</button>
+        <div style="display:flex; gap:20px;">
+            <button class="btn-inline" style="color:var(--primary);" onclick="toggleNewVehicleForm()">+ Add New</button>
+            <button id="deleteVehicleBtn" class="btn-inline hidden" style="color:var(--danger);" onclick="deleteCurrentVehicle()">- Delete Selected</button>
+        </div>
     </div>
 
     <div id="galleryContainer" class="hidden">
-        <label style="margin-left: 5px;">Vehicle Photos</label>
+        <label style="font-weight:bold; color:var(--grey); margin-left:5px;">Vehicle Photos</label>
         <div class="gallery-grid" id="mainGallery"></div>
     </div>
 
     <div id="newVehicleForm" class="card hidden">
-        <div class="field-group">
-            <label>New Vehicle Name</label>
-            <input type="text" id="v_name" placeholder="e.g. 2017 Ram 2500">
-        </div>
-        <button class="btn btn-success" onclick="addNewVehicle()">Save Vehicle</button>
+        <input type="text" id="v_name" placeholder="Vehicle Name">
+        <button class="btn btn-success" onclick="addNewVehicle()">Save</button>
     </div>
 
     <div id="mainContent" class="hidden">
+        <div class="specs-container">
+            <div class="specs-header active" onclick="toggleSection(this, 'vSpecsContent')">Vehicle Specs</div>
+            <div id="vSpecsContent" class="collapse-content show">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div><label style="font-size:0.8rem;">VIN</label><input type="text" id="vs_vin" onchange="saveVSpecs()"></div>
+                    <div><label style="font-size:0.8rem;">PLATE</label><input type="text" id="vs_plate" onchange="saveVSpecs()"></div>
+                    <div><label style="font-size:0.8rem;">ENGINE</label><input type="text" id="vs_engine" onchange="saveVSpecs()"></div>
+                    <div><label style="font-size:0.8rem;">OIL CAP</label><input type="text" id="vs_oil" onchange="saveVSpecs()"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="specs-container">
+            <div class="specs-header" onclick="toggleSection(this, 'torqueContent')">Torques & Capacities</div>
+            <div id="torqueContent" class="collapse-content">
+                <table><thead><tr><th>Item</th><th>Spec</th><th></th></tr></thead><tbody id="torqueBody"></tbody></table>
+                <input type="text" id="si" placeholder="Item">
+                <input type="text" id="sn" placeholder="Spec">
+                <button class="btn btn-success" onclick="addItem('specs')">+ Add Spec</button>
+            </div>
+        </div>
+
+        <div class="specs-container">
+            <div class="specs-header" onclick="toggleSection(this, 'partsContent')">Parts List</div>
+            <div id="partsContent" class="collapse-content">
+                <table><thead><tr><th>Part</th><th>Number</th><th></th></tr></thead><tbody id="partsBody"></tbody></table>
+                <input type="text" id="pi" placeholder="Part Name">
+                <input type="text" id="pn" placeholder="Part Number">
+                <button class="btn btn-success" onclick="addItem('parts')">+ Add Part</button>
+            </div>
+        </div>
+
         <div class="card">
             <h3 id="logTitle" style="margin-top:0;">New Service Entry</h3>
+            <div class="field-group"><label>Odometer</label><input type="number" id="log_miles"></div>
+            <div class="field-group"><label>Work Performed</label><input type="text" id="log_work"></div>
+            <div class="field-group"><label>Notes</label><textarea id="log_notes" rows="3"></textarea></div>
             
-            <div class="field-group">
-                <label>Odometer</label>
-                <input type="number" id="log_miles" placeholder="Current Miles">
-            </div>
-            
-            <div class="field-group">
-                <label>Work Performed</label>
-                <input type="text" id="log_work" placeholder="e.g. Oil Change">
-            </div>
-            
-            <div class="field-group">
-                <label>Notes</label>
-                <textarea id="log_notes" rows="3" placeholder="Filter type, brand, etc."></textarea>
-            </div>
-
-            <label>Entry Photos (Up to 6)</label>
+            <label style="font-weight:bold; color:var(--grey);">Entry Photos (Up to 6)</label>
             <div class="gallery-grid" id="logFormGallery"></div>
             
             <button class="btn btn-success" id="saveLogBtn" onclick="addLog()">Save Entry</button>
@@ -126,11 +149,12 @@
     let fleet = JSON.parse(localStorage.getItem('garageFleet')) || [];
     let currentIdx = -1;
     let editLogIdx = -1;
-    let tempLogImages = [null,null,null,null,null,null]; // Temp storage for the form gallery
+    let tempLogImages = [null,null,null,null,null,null];
 
     function openNav() { document.getElementById("mySidenav").style.width = "300px"; }
     function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
-    function closeApp() { if(confirm("Close Application?")) { window.close(); window.history.back(); } }
+    function closeApp() { if(confirm("Close App?")) { window.close(); window.history.back(); } }
+    function toggleSection(header, id) { header.classList.toggle('active'); document.getElementById(id).classList.toggle('show'); }
 
     function init() {
         const s = document.getElementById('vehicleSelector');
@@ -158,9 +182,19 @@
         localStorage.setItem('lastVehicleIdx', currentIdx);
         document.getElementById('galleryContainer').classList.remove('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
-        renderMainGallery(); 
-        renderLogFormGallery();
-        renderLogs();
+        document.getElementById('deleteVehicleBtn').classList.remove('hidden');
+        loadVSpecs(); renderMainGallery(); renderLogFormGallery(); renderParts(); renderSpecs(); renderLogs();
+    }
+
+    function loadVSpecs() {
+        const vs = fleet[currentIdx].vSpecs || {};
+        ['vin', 'plate', 'engine', 'oil'].forEach(id => document.getElementById('vs_'+id).value = vs[id] || '');
+    }
+
+    function saveVSpecs() {
+        const vs = {};
+        ['vin', 'plate', 'engine', 'oil'].forEach(id => vs[id] = document.getElementById('vs_'+id).value);
+        fleet[currentIdx].vSpecs = vs; save();
     }
 
     async function compressImage(file) {
@@ -179,48 +213,76 @@
         });
     }
 
-    // GALLERY RENDERER (Universal)
-    function renderGallery(containerId, imageArray, uploadFn, deleteFn) {
+    // UPDATED: Universal Gallery Logic with explicit function binding
+    function renderGallery(containerId, imageArray, type) {
         const g = document.getElementById(containerId); g.innerHTML = '';
         for (let i = 0; i < 6; i++) {
             const slot = document.createElement('div');
             const imgData = imageArray[i];
             slot.className = 'slot' + (imgData ? ' has-img' : '');
             if (imgData) {
-                slot.innerHTML = `<img src="${imgData}"><button class="btn-img-del" onclick="${deleteFn}(event,${i})">X</button>`;
+                slot.innerHTML = `<img src="${imgData}"><button class="btn-img-del" onclick="deleteImg('${type}', event, ${i})">X</button>`;
             } else {
-                slot.onclick = () => { const inp = document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange=(e)=>uploadFn(e,i); inp.click(); };
+                slot.onclick = () => { 
+                    const inp = document.createElement('input'); 
+                    inp.type='file'; inp.accept='image/*'; 
+                    inp.onchange=(e)=>uploadImg(type, e, i); 
+                    inp.click(); 
+                };
             }
             g.appendChild(slot);
         }
     }
 
-    // MAIN GALLERY HANDLERS
-    function renderMainGallery() { renderGallery('mainGallery', fleet[currentIdx].images, 'uploadMainImg', 'deleteMainImg'); }
-    async function uploadMainImg(e, i) { if(e.target.files[0]) { fleet[currentIdx].images[i] = await compressImage(e.target.files[0]); save(); renderMainGallery(); } }
-    function deleteMainImg(e, i) { e.stopPropagation(); fleet[currentIdx].images[i] = null; save(); renderMainGallery(); }
+    async function uploadImg(type, e, i) {
+        if(!e.target.files[0]) return;
+        const compressed = await compressImage(e.target.files[0]);
+        if(type === 'main') { fleet[currentIdx].images[i] = compressed; save(); renderMainGallery(); }
+        else { tempLogImages[i] = compressed; renderLogFormGallery(); }
+    }
 
-    // LOG FORM GALLERY HANDLERS
-    function renderLogFormGallery() { renderGallery('logFormGallery', tempLogImages, 'uploadLogImg', 'deleteLogImg'); }
-    async function uploadLogImg(e, i) { if(e.target.files[0]) { tempLogImages[i] = await compressImage(e.target.files[0]); renderLogFormGallery(); } }
-    function deleteLogImg(e, i) { e.stopPropagation(); tempLogImages[i] = null; renderLogFormGallery(); }
+    function deleteImg(type, e, i) {
+        e.stopPropagation();
+        if(type === 'main') { fleet[currentIdx].images[i] = null; save(); renderMainGallery(); }
+        else { tempLogImages[i] = null; renderLogFormGallery(); }
+    }
 
-    // LOGS LOGIC
+    function renderMainGallery() { renderGallery('mainGallery', fleet[currentIdx].images, 'main'); }
+    function renderLogFormGallery() { renderGallery('logFormGallery', tempLogImages, 'log'); }
+
+    // DATA TABLES LOGIC
+    function addItem(type) {
+        const i = document.getElementById(type==='parts'?'pi':'si'), v = document.getElementById(type==='parts'?'pn':'sn');
+        if(!i.value || !v.value) return;
+        if(!fleet[currentIdx][type]) fleet[currentIdx][type] = [];
+        fleet[currentIdx][type].push({ item: i.value, val: v.value });
+        i.value = ''; v.value = ''; save(); 
+        type==='parts' ? renderParts() : renderSpecs();
+    }
+
+    function renderParts() {
+        const b = document.getElementById('partsBody'); b.innerHTML = '';
+        (fleet[currentIdx].parts || []).forEach((p, i) => {
+            b.innerHTML += `<tr><td>${p.item}</td><td>${p.val}</td><td><button class="btn-danger-sm" onclick="deleteItem('parts',${i})">X</button></td></tr>`;
+        });
+    }
+
+    function renderSpecs() {
+        const b = document.getElementById('torqueBody'); b.innerHTML = '';
+        (fleet[currentIdx].specs || []).forEach((s, i) => {
+            b.innerHTML += `<tr><td>${s.item}</td><td>${s.val}</td><td><button class="btn-danger-sm" onclick="deleteItem('specs',${i})">X</button></td></tr>`;
+        });
+    }
+
+    function deleteItem(type, i) { fleet[currentIdx][type].splice(i, 1); save(); type==='parts' ? renderParts() : renderSpecs(); }
+
+    // LOGS
     function addLog() {
         const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes');
         if(!m.value || !w.value) return;
-        
-        const entry = { 
-            miles: m.value, 
-            work: w.value, 
-            notes: n.value, 
-            images: [...tempLogImages], // Save the current grid of 6
-            date: editLogIdx > -1 ? fleet[currentIdx].logs[editLogIdx].date : new Date().toLocaleDateString() 
-        };
-        
+        const entry = { miles: m.value, work: w.value, notes: n.value, images: [...tempLogImages], date: editLogIdx > -1 ? fleet[currentIdx].logs[editLogIdx].date : new Date().toLocaleDateString() };
         if(editLogIdx > -1) fleet[currentIdx].logs[editLogIdx] = entry;
         else fleet[currentIdx].logs.push(entry);
-
         save(); clearLogForm(); renderLogs();
     }
 
@@ -228,21 +290,13 @@
         const h = document.getElementById('logHistory'); h.innerHTML = '';
         (fleet[currentIdx].logs || []).slice().reverse().forEach((log, revIdx) => {
             const idx = (fleet[currentIdx].logs.length - 1) - revIdx;
-            
-            // Build the read-only gallery for this entry
             let imgHtml = '<div class="gallery-grid">';
-            (log.images || []).forEach(img => {
-                if(img) imgHtml += `<div class="slot has-img"><img src="${img}"></div>`;
-            });
+            (log.images || []).forEach(img => { if(img) imgHtml += `<div class="slot has-img"><img src="${img}"></div>`; });
             imgHtml += '</div>';
-
             h.innerHTML += `<div class="log-entry">
-                <div class="log-header">
-                    <div><span style="color:var(--grey);">${log.date}</span></div>
-                    <span class="mileage-badge">${parseInt(log.miles).toLocaleString()} MI</span>
-                </div>
-                <div class="log-work-title">${log.work}</div>
-                <div class="log-notes-text">${log.notes}</div>
+                <div class="log-header"><span>${log.date}</span><span class="mileage-badge">${parseInt(log.miles).toLocaleString()} MI</span></div>
+                <div style="font-weight:800; font-size:1.6rem; margin:5px 0;">${log.work}</div>
+                <div style="font-size:1.1rem; color:#444; white-space:pre-wrap; margin-bottom:10px;">${log.notes}</div>
                 ${imgHtml}
                 <div style="display:flex; gap:10px; margin-top:10px;">
                     <button class="btn-edit-sm" onclick="editLog(${idx})">EDIT</button>
@@ -258,24 +312,21 @@
         document.getElementById('log_miles').value = log.miles;
         document.getElementById('log_work').value = log.work;
         document.getElementById('log_notes').value = log.notes;
-        tempLogImages = [...log.images]; // Load saved images into form
+        tempLogImages = [...log.images];
         document.getElementById('logTitle').innerText = "Editing Entry";
         document.getElementById('cancelEditBtn').classList.remove('hidden');
         renderLogFormGallery();
     }
 
     function clearLogForm() {
-        editLogIdx = -1;
-        tempLogImages = [null,null,null,null,null,null];
-        document.getElementById('log_miles').value = '';
-        document.getElementById('log_work').value = '';
-        document.getElementById('log_notes').value = '';
-        document.getElementById('logTitle').innerText = "New Service Entry";
-        document.getElementById('cancelEditBtn').classList.add('hidden');
+        editLogIdx = -1; tempLogImages = [null,null,null,null,null,null];
+        document.getElementById('log_miles').value = ''; document.getElementById('log_work').value = ''; document.getElementById('log_notes').value = '';
+        document.getElementById('logTitle').innerText = "New Service Entry"; document.getElementById('cancelEditBtn').classList.add('hidden');
         renderLogFormGallery();
     }
 
     function deleteLog(idx) { if(confirm("Delete entry?")) { fleet[currentIdx].logs.splice(idx, 1); save(); renderLogs(); } }
+    function deleteCurrentVehicle() { if(confirm("Delete this entire vehicle and all logs?")) { fleet.splice(currentIdx, 1); save(); location.reload(); } }
     function save() { localStorage.setItem('garageFleet', JSON.stringify(fleet)); }
     function exportData() { const a = document.createElement('a'); a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fleet)); a.download = "fleet_backup.json"; a.click(); }
     function importData(e) { const r = new FileReader(); r.onload = (ev) => { fleet = JSON.parse(ev.target.result); save(); location.reload(); }; r.readAsText(e.target.files[0]); }

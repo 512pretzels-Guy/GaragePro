@@ -102,9 +102,10 @@
             <div id="vSpecsContent" class="collapse-content show">
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div><label style="font-size:0.8rem;">VIN</label><input type="text" id="vs_vin" onchange="saveVSpecs()"></div>
-                    <div><label style="font-size:0.8rem;">PLATE</label><input type="text" id="vs_plate" onchange="saveVSpecs()"></div>
+                    <div><label style="font-size:0.8rem;">LIC PLATE</label><input type="text" id="vs_plate" onchange="saveVSpecs()"></div>
                     <div><label style="font-size:0.8rem;">ENGINE</label><input type="text" id="vs_engine" onchange="saveVSpecs()"></div>
-                    <div><label style="font-size:0.8rem;">OIL CAP</label><input type="text" id="vs_oil" onchange="saveVSpecs()"></div>
+                    <div><label style="font-size:0.8rem;">TRIM</label><input type="text" id="vs_trim" onchange="saveVSpecs()"></div>
+                    <div style="grid-column: span 2;"><label style="font-size:0.8rem;">DRIVE</label><input type="text" id="vs_drive" onchange="saveVSpecs()"></div>
                 </div>
             </div>
         </div>
@@ -190,12 +191,18 @@
 
     function loadVSpecs() {
         const vs = fleet[currentIdx].vSpecs || {};
-        ['vin', 'plate', 'engine', 'oil'].forEach(id => document.getElementById('vs_'+id).value = vs[id] || '');
+        ['vin', 'plate', 'engine', 'trim', 'drive'].forEach(id => {
+            const el = document.getElementById('vs_'+id);
+            if(el) el.value = vs[id] || '';
+        });
     }
 
     function saveVSpecs() {
         const vs = {};
-        ['vin', 'plate', 'engine', 'oil'].forEach(id => vs[id] = document.getElementById('vs_'+id).value);
+        ['vin', 'plate', 'engine', 'trim', 'drive'].forEach(id => {
+            const el = document.getElementById('vs_'+id);
+            if(el) vs[id] = el.value;
+        });
         fleet[currentIdx].vSpecs = vs; save();
     }
 

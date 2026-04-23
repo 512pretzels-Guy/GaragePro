@@ -24,10 +24,19 @@
             margin: 0; padding: 0; background-color: #e9ecef; color: var(--dark); font-size: 1.5rem; 
         }
 
-        .navbar { background: var(--dark); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; height: 70px; box-sizing: border-box; }
+        /* Navbar with Logo Styling */
+        .navbar { 
+            background: var(--dark); color: white; padding: 10px 20px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            position: sticky; top: 0; z-index: 1000; height: 70px; box-sizing: border-box; 
+        }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .nav-brand-group { display: flex; align-items: center; gap: 12px; }
+        .nav-logo { height: 40px; width: 40px; border-radius: 6px; object-fit: contain; }
+        .nav-brand { font-weight: bold; font-size: 1.4rem; letter-spacing: 1px; }
         .hamburger { font-size: 2.5rem; cursor: pointer; background: none; border: none; color: white; padding: 0; }
-        .nav-brand { font-weight: bold; font-size: 1.6rem; letter-spacing: 1px; }
 
+        /* Sidebar */
         .side-menu { height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.3s; padding-top: 60px; }
         .side-menu a, .side-menu label { padding: 15px 25px; text-decoration: none; font-size: 1.6rem; color: #818181; display: block; cursor: pointer; }
         .side-menu .closebtn { position: absolute; top: 0; right: 25px; font-size: 50px; }
@@ -35,12 +44,7 @@
         .container { max-width: 900px; margin: auto; padding: 15px; padding-bottom: 50px; }
         .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-        .slot { position: relative; width: 100%; padding-top: 100%; background-color: #eee; border-radius: 10px; overflow: hidden; cursor: pointer; border: 1px solid #ccc; }
-        .slot img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .slot::after { content: "+"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #aaa; font-size: 3rem; }
-        .slot.has-img::after { display: none; }
-
+        /* Vehicle Specs & History */
         .specs-container { background: var(--parchment); border: 1px solid #ccc; border-radius: 12px; overflow: hidden; margin-bottom: 25px; }
         .specs-header { background: #eee; padding: 20px; font-weight: bold; font-size: 1.6rem; border-bottom: 4px solid var(--primary); cursor: pointer; display: flex; align-items: center; }
         .specs-header::before { content: '▶'; display: inline-block; margin-right: 15px; transition: transform 0.2s; color: var(--grey); }
@@ -48,21 +52,12 @@
         .collapse-content { display: none; }
         .collapse-content.show { display: block; }
 
-        table { width: 100%; border-collapse: collapse; }
-        td, th { padding: 12px 10px; border-bottom: 1px solid #eee; text-align: left; font-size: 1.1rem; }
-        input, select, textarea { width: 100%; padding: 20px; margin: 10px 0; border: 1px solid #bbb; border-radius: 8px; box-sizing: border-box; font-size: 1.4rem; }
+        .log-entry { border-left: 12px solid var(--royal); padding: 15px 25px; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-radius: 0 12px 12px 0; }
+        .mileage-badge { background: var(--royal); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
 
+        input, select, textarea { width: 100%; padding: 20px; margin: 10px 0; border: 1px solid #bbb; border-radius: 8px; box-sizing: border-box; font-size: 1.4rem; }
         .btn { padding: 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.4rem; width: 100%; }
         .btn-success { background: var(--success); color: white; }
-        .btn-edit { background: var(--edit); color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.9rem; border: none; cursor: pointer; text-transform: uppercase; }
-        .btn-danger-sm { background: var(--danger); color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.9rem; border: none; cursor: pointer; text-transform: uppercase; }
-        
-        .log-entry { border-left: 12px solid var(--royal); padding: 15px 25px; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-left-width: 12px; border-radius: 0 12px 12px 0; position: relative; }
-        .mileage-badge { background: var(--royal); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
-        .log-work-title { font-weight: 800; font-size: 1.7rem; color: var(--dark); margin: 10px 0; }
-        .log-notes-text { font-size: 1.3rem; white-space: pre-wrap; color: #333; background: #f9f9f9; padding: 10px; border-radius: 5px; }
-
-        .v-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -76,13 +71,17 @@
     </label>
     
     <a onclick="closeApp()" style="color: #fff; border-top: 1px solid #333; margin-top: 20px;">🚪 Close App</a>
-    
     <a onclick="wipeData()" style="color: var(--danger); margin-top: 50px;">⚠️ Wipe All Data</a>
 </div>
 
 <div class="navbar">
-    <button class="hamburger" onclick="openNav()">&#9776;</button>
-    <span class="nav-brand">GARAGE PRO</span>
+    <div class="nav-left">
+        <button class="hamburger" onclick="openNav()">&#9776;</button>
+        <div class="nav-brand-group">
+            <img src="./icon-512.png" alt="Logo" class="nav-logo">
+            <span class="nav-brand">GARAGE FLEET PRO</span>
+        </div>
+    </div>
     <div></div>
 </div>
 
@@ -100,15 +99,13 @@
     </div>
 
     <div id="mainContent" class="hidden">
-        <div class="gallery-grid" id="mainGallery"></div>
-
         <div class="specs-container">
             <div class="specs-header active" onclick="toggleSection(this, 'vSpecsContent')">Vehicle Specs</div>
             <div id="vSpecsContent" class="collapse-content show">
-                <div class="v-specs-grid">
-                    <div style="grid-column: span 2;"><label style="font-size:0.8rem;">VIN</label><input type="text" id="vs_vin" onchange="saveVSpecs()"></div>
-                    <div><label style="font-size:0.8rem;">Engine</label><input type="text" id="vs_engine" onchange="saveVSpecs()"></div>
-                    <div><label style="font-size:0.8rem;">Oil Cap</label><input type="text" id="vs_oil" onchange="saveVSpecs()"></div>
+                <div style="padding: 15px;">
+                    <label style="font-size:0.8rem;">VIN</label><input type="text" id="vs_vin" onchange="saveVSpecs()">
+                    <label style="font-size:0.8rem;">Engine</label><input type="text" id="vs_engine" onchange="saveVSpecs()">
+                    <label style="font-size:0.8rem;">Oil Capacity</label><input type="text" id="vs_oil" onchange="saveVSpecs()">
                 </div>
             </div>
         </div>
@@ -135,11 +132,11 @@
         });
     }
 
-    // Close App Function
+    // Close App Logic
     function closeApp() {
         if (confirm("Exit Garage Pro?")) {
             window.close();
-            window.history.back(); // Fallback
+            window.history.back(); 
         }
     }
 
@@ -162,7 +159,7 @@
     function addNewVehicle() {
         const name = document.getElementById('v_name').value;
         if (!name) return;
-        fleet.push({ name, logs: [], images: [null,null,null,null,null,null], vSpecs: {} });
+        fleet.push({ name, logs: [], vSpecs: {} });
         save(); init(); toggleNewVehicleForm();
     }
 
@@ -201,8 +198,8 @@
         (fleet[currentIdx].logs || []).slice().reverse().forEach((log) => {
             h.innerHTML += `<div class="log-entry">
                 <span class="log-date">${log.date}</span> | <span class="mileage-badge">${log.miles} MI</span>
-                <div class="log-work-title">${log.work}</div>
-                <div class="log-notes-text">${log.notes}</div>
+                <div style="font-weight:bold; font-size:1.4rem; margin:10px 0;">${log.work}</div>
+                <div style="font-size:1.1rem; color:#444;">${log.notes}</div>
             </div>`;
         });
     }

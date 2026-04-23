@@ -1,6 +1,6 @@
 const CACHE_NAME = 'garage-pro-v1';
 const ASSETS = [
-  './Garage Pro32.html',
+  './GaragePro.html',
   './manifest.json'
 ];
 

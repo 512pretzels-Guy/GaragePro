@@ -19,7 +19,7 @@
             margin: 0; padding: 0; background-color: #e9ecef; color: var(--dark); font-size: 1.5rem; 
         }
 
-        /* Navbar */
+        /* Navbar & Branding */
         .navbar { background: var(--dark); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; height: 70px; box-sizing: border-box; }
         .nav-left { display: flex; align-items: center; gap: 15px; }
         .nav-brand-group { display: flex; align-items: center; gap: 12px; }
@@ -34,7 +34,7 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; }
 
-        /* Layout */
+        /* Main UI Cards */
         .container { max-width: 900px; margin: auto; padding: 15px; padding-bottom: 50px; }
         .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
@@ -46,10 +46,9 @@
         .collapse-content { display: none; padding: 15px; }
         .collapse-content.show { display: block; }
 
-        /* Tables & Inputs */
+        /* Tables & Data Entry */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         td, th { padding: 12px 10px; border-bottom: 1px solid #eee; text-align: left; font-size: 1.2rem; }
-        th { background: #f1f1f1; font-weight: bold; }
         input, select, textarea { width: 100%; padding: 18px; margin: 10px 0; border: 1px solid #bbb; border-radius: 8px; box-sizing: border-box; font-size: 1.3rem; }
         
         .btn { padding: 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.3rem; width: 100%; }
@@ -59,8 +58,8 @@
         /* Service Log Entries */
         .log-entry { border-left: 12px solid var(--royal); padding: 15px 25px; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-left-width: 12px; border-radius: 0 12px 12px 0; }
         .mileage-badge { background: var(--royal); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
-        .log-work-title { font-weight: 800; font-size: 1.6rem; color: var(--dark); margin: 12px 0; }
-        .log-notes-text { font-size: 1.2rem; color: #333; background: #f9f9f9; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        .log-work-title { font-weight: 800; font-size: 1.7rem; color: var(--dark); margin: 12px 0; }
+        .log-notes-text { font-size: 1.3rem; color: #333; background: #f9f9f9; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
 
         .hidden { display: none !important; }
     </style>
@@ -69,8 +68,8 @@
 
 <div id="exitModal" class="modal-overlay hidden">
     <div class="modal-content">
-        <h2>Garage Fleet Pro</h2>
-        <p>Are you sure you want to exit?</p>
+        <h2 style="margin-top:0;">Garage Fleet Pro</h2>
+        <p>Are you sure you want to exit the app?</p>
         <div style="display:flex; gap:15px; margin-top:20px;">
             <button class="btn btn-grey" onclick="hideExitModal()" style="background:#6c757d; color:white;">Cancel</button>
             <button class="btn" onclick="executeClose()" style="background:var(--danger); color:white;">Exit</button>
@@ -100,9 +99,10 @@
 
 <div class="container">
     <div class="card">
-        <label>SELECT VEHICLE</label>
+        <label>VEHICLE</label>
         <select id="vehicleSelector" onchange="switchVehicle()"></select>
-        <button class="btn btn-success" style="margin-top:10px;" onclick="toggleNewVehicleForm()">+ Add New Vehicle</button>
+        <button class="btn btn-success" style="margin-top:15px;" onclick="toggleNewVehicleForm()">+ Add New Vehicle</button>
+        <button id="deleteVehicleBtn" class="btn hidden" style="background:var(--danger); color:white; margin-top:10px;" onclick="deleteCurrentVehicle()">Delete Currently Selected Vehicle</button>
     </div>
 
     <div id="newVehicleForm" class="card hidden">
@@ -120,39 +120,37 @@
                     <tbody id="torqueTableBody"></tbody>
                 </table>
                 <div style="margin-top:15px; border-top:1px solid #ccc; padding-top:10px;">
-                    <input type="text" id="new_spec_item" placeholder="Item (e.g. Oil Plug)">
-                    <input type="text" id="new_spec_val" placeholder="Value (e.g. 30 ft-lbs)">
+                    <input type="text" id="new_spec_item" placeholder="e.g. Front Axle Nut">
+                    <input type="text" id="new_spec_val" placeholder="e.g. 132 ft-lbs">
                     <button class="btn btn-success" onclick="addSpec()">+ Add Spec</button>
                 </div>
             </div>
         </div>
 
         <div class="specs-container">
-            <div class="specs-header" onclick="toggleSection(this, 'partsContent')">Frequent Parts & Filters</div>
+            <div class="specs-header" onclick="toggleSection(this, 'partsContent')">Frequent Parts & Part Numbers</div>
             <div id="partsContent" class="collapse-content">
                 <table>
                     <thead><tr><th>Part Name</th><th>Part Number</th><th>Action</th></tr></thead>
                     <tbody id="partsTableBody"></tbody>
                 </table>
                 <div style="margin-top:15px; border-top:1px solid #ccc; padding-top:10px;">
-                    <input type="text" id="new_part_name" placeholder="Part (e.g. Fuel Filter)">
-                    <input type="text" id="new_part_num" placeholder="Number (e.g. Mopar 68157291AA)">
+                    <input type="text" id="new_part_name" placeholder="e.g. Oil Filter">
+                    <input type="text" id="new_part_num" placeholder="e.g. Mopar 68191349AA">
                     <button class="btn btn-success" onclick="addPart()">+ Add Part</button>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h3>New Service Entry</h3>
-            <input type="number" id="log_miles" placeholder="Odometer Reading">
-            <input type="text" id="log_work" placeholder="Work Performed (e.g. Oil Change)">
+            <h3>New Service Log Entry</h3>
+            <input type="number" id="log_miles" placeholder="Odometer">
+            <input type="text" id="log_work" placeholder="Work Performed">
             <textarea id="log_notes" rows="3" placeholder="Additional Notes..."></textarea>
             <button class="btn btn-success" onclick="addLog()">Save Entry</button>
         </div>
 
         <div id="logHistory"></div>
-        
-        <button id="deleteVehicleBtn" class="btn" style="background:none; color:var(--danger); margin-top:40px; font-size:1rem;" onclick="deleteCurrentVehicle()">Delete This Vehicle Permanently</button>
     </div>
 </div>
 
@@ -179,8 +177,8 @@
         s.innerHTML = fleet.length ? '' : '<option value="">-- Select Vehicle --</option>';
         fleet.forEach((v, i) => { s.innerHTML += `<option value="${i}">${v.name}</option>`; });
         if (fleet.length > 0) { 
-            const lastUsed = localStorage.getItem('lastVehicleIdx');
-            currentIdx = (lastUsed !== null && fleet[lastUsed]) ? parseInt(lastUsed) : 0;
+            const last = localStorage.getItem('lastVehicle');
+            currentIdx = (last !== null && fleet[last]) ? parseInt(last) : 0;
             s.value = currentIdx; switchVehicle(); 
         }
     }
@@ -196,12 +194,13 @@
 
     function switchVehicle() {
         currentIdx = parseInt(document.getElementById('vehicleSelector').value);
-        localStorage.setItem('lastVehicleIdx', currentIdx);
+        localStorage.setItem('lastVehicle', currentIdx);
         document.getElementById('mainContent').classList.remove('hidden');
+        document.getElementById('deleteVehicleBtn').classList.remove('hidden');
         renderSpecs(); renderParts(); renderLogs();
     }
 
-    // Specs Logic
+    // Spec Logic
     function addSpec() {
         const i = document.getElementById('new_spec_item'), v = document.getElementById('new_spec_val');
         if(!i.value || !v.value) return;

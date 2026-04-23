@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Garage Fleet Pro">
@@ -223,14 +223,14 @@
 </div>
 
 <script>
-    // PWA Service Worker Registration
+    // PWA Service Worker Registration - UPDATED SCOPE FOR GITHUB
     if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js', { scope: './' })
-            .then(reg => console.log('Service Worker Registered at scope:', reg.scope))
-            .catch(err => console.log('Service Worker Failed', err));
-    });
-}
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
+                .then(reg => console.log('Service Worker Registered'))
+                .catch(err => console.log('Service Worker Failed', err));
+        });
+    }
 
     let fleet = JSON.parse(localStorage.getItem('garageFleet')) || [];
     let currentIdx = -1;
@@ -501,8 +501,8 @@
 
     function downloadCSV() {
         const v = fleet[currentIdx];
-        let csv = "Date,Mileage,Work,Notes\n";
-        v.logs.forEach(l => { csv += `"${l.date}","${l.miles}","${l.work}","${l.notes.replace(/"/g, '""')}"\n`; });
+        let csv = "Date,Mileage,Work,Tech,Notes\n";
+        v.logs.forEach(l => { csv += `"${l.date}","${l.miles}","${l.work}","${l.who}","${l.notes.replace(/"/g, '""')}"\n`; });
         const blob = new Blob([csv], { type: 'text/csv' });
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${v.name}.csv`; a.click();
     }

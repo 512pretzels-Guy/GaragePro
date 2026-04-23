@@ -1,12 +1,20 @@
-const CACHE_NAME = 'garage-pro-v5';
+const CACHE_NAME = 'garage-pro-v8';
+const ASSETS = [
+  './GaragePro.html',
+  './manifest.json',
+  './icon-512.png'
+];
 
 self.addEventListener('install', (event) => {
-    // Forces the waiting service worker to become the active service worker
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(ASSETS);
+        })
+    );
     self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-    // Allows the service worker to take control of the page immediately
     event.waitUntil(clients.claim());
 });
 

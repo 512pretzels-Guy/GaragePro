@@ -9,7 +9,7 @@
   "description": "Vehicle maintenance and service log tracker.",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2554/2554930.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

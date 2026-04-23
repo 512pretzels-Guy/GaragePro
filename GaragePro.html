@@ -24,12 +24,8 @@
             margin: 0; padding: 0; background-color: #e9ecef; color: var(--dark); font-size: 1.5rem; 
         }
 
-        /* Navbar with Logo Styling */
-        .navbar { 
-            background: var(--dark); color: white; padding: 10px 20px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 1000; height: 70px; box-sizing: border-box; 
-        }
+        /* Navbar & Brand */
+        .navbar { background: var(--dark); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; height: 70px; box-sizing: border-box; }
         .nav-left { display: flex; align-items: center; gap: 15px; }
         .nav-brand-group { display: flex; align-items: center; gap: 12px; }
         .nav-logo { height: 40px; width: 40px; border-radius: 6px; object-fit: contain; }
@@ -41,10 +37,15 @@
         .side-menu a, .side-menu label { padding: 15px 25px; text-decoration: none; font-size: 1.6rem; color: #818181; display: block; cursor: pointer; }
         .side-menu .closebtn { position: absolute; top: 0; right: 25px; font-size: 50px; }
 
+        /* Custom Exit Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .modal-buttons { display: flex; gap: 15px; margin-top: 25px; }
+        
         .container { max-width: 900px; margin: auto; padding: 15px; padding-bottom: 50px; }
         .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-        /* Vehicle Specs & History */
+        /* Vehicle Detail Styling */
         .specs-container { background: var(--parchment); border: 1px solid #ccc; border-radius: 12px; overflow: hidden; margin-bottom: 25px; }
         .specs-header { background: #eee; padding: 20px; font-weight: bold; font-size: 1.6rem; border-bottom: 4px solid var(--primary); cursor: pointer; display: flex; align-items: center; }
         .specs-header::before { content: '▶'; display: inline-block; margin-right: 15px; transition: transform 0.2s; color: var(--grey); }
@@ -58,10 +59,24 @@
         input, select, textarea { width: 100%; padding: 20px; margin: 10px 0; border: 1px solid #bbb; border-radius: 8px; box-sizing: border-box; font-size: 1.4rem; }
         .btn { padding: 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.4rem; width: 100%; }
         .btn-success { background: var(--success); color: white; }
+        .btn-grey { background: var(--grey); color: white; }
+        .btn-danger-modal { background: var(--danger); color: white; }
+        
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
+
+<div id="exitModal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <h2 style="margin-top:0;">Garage Fleet Pro</h2>
+        <p>Are you sure you want to exit the app?</p>
+        <div class="modal-buttons">
+            <button class="btn btn-grey" onclick="hideExitModal()">Cancel</button>
+            <button class="btn btn-danger-modal" onclick="executeClose()">Exit</button>
+        </div>
+    </div>
+</div>
 
 <div id="mySidenav" class="side-menu">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -78,8 +93,8 @@
     <div class="nav-left">
         <button class="hamburger" onclick="openNav()">&#9776;</button>
         <div class="nav-brand-group">
-            <span class="nav-brand">GARAGE FLEET PRO</span>
             <img src="./icon-512.png" alt="Logo" class="nav-logo">
+            <span class="nav-brand">GARAGE PRO</span>
         </div>
     </div>
     <div></div>
@@ -132,12 +147,19 @@
         });
     }
 
-    // Close App Logic
+    // Custom Close App Logic
     function closeApp() {
-        if (confirm("Exit Garage Pro?")) {
-            window.close();
-            window.history.back(); 
-        }
+        document.getElementById('exitModal').classList.remove('hidden');
+        closeNav();
+    }
+
+    function hideExitModal() {
+        document.getElementById('exitModal').classList.add('hidden');
+    }
+
+    function executeClose() {
+        window.close();
+        window.history.back(); 
     }
 
     let fleet = JSON.parse(localStorage.getItem('garageFleet')) || [];
@@ -197,9 +219,9 @@
         const h = document.getElementById('logHistory'); h.innerHTML = '';
         (fleet[currentIdx].logs || []).slice().reverse().forEach((log) => {
             h.innerHTML += `<div class="log-entry">
-                <span class="log-date">${log.date}</span> | <span class="mileage-badge">${log.miles} MI</span>
-                <div style="font-weight:bold; font-size:1.4rem; margin:10px 0;">${log.work}</div>
-                <div style="font-size:1.1rem; color:#444;">${log.notes}</div>
+                <span class="log-date">${log.date}</span> | <span class="mileage-badge">${parseInt(log.miles).toLocaleString()} MI</span>
+                <div style="font-weight:bold; font-size:1.4rem; margin:10px 0; color:var(--dark);">${log.work}</div>
+                <div style="font-size:1.2rem; color:#333; background:#f9f9f9; padding:8px; border-radius:5px;">${log.notes}</div>
             </div>`;
         });
     }

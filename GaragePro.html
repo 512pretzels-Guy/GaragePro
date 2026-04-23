@@ -14,27 +14,17 @@
     
     <style>
         :root { 
-            --primary: #007bff; 
-            --success: #28a745; 
-            --danger: #ff4d4d; 
-            --edit: #4da3ff;   
-            --dark: #212529; 
-            --light: #f8f9fa; 
-            --parchment: #fdfdfd; 
-            --royal: #4169E1;
-            --grey: #6c757d;
+            --primary: #007bff; --success: #28a745; --danger: #ff4d4d; 
+            --edit: #4da3ff; --dark: #212529; --light: #f8f9fa; 
+            --parchment: #fdfdfd; --royal: #4169E1; --grey: #6c757d;
         }
         
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            margin: 0; padding: 0; 
-            background-color: #e9ecef; 
-            color: var(--dark); 
-            font-size: 1.5rem; 
+            margin: 0; padding: 0; background-color: #e9ecef; color: var(--dark); font-size: 1.5rem; 
         }
 
         .navbar { background: var(--dark); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; height: 70px; box-sizing: border-box; }
-        .nav-title-group { display: flex; align-items: center; gap: 12px; }
         .hamburger { font-size: 2.5rem; cursor: pointer; background: none; border: none; color: white; padding: 0; }
         .nav-brand { font-weight: bold; font-size: 1.6rem; letter-spacing: 1px; }
 
@@ -46,66 +36,34 @@
         .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-        @media (min-width: 600px) { .gallery-grid { grid-template-columns: repeat(6, 1fr); } }
-        .log-gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-
         .slot { position: relative; width: 100%; padding-top: 100%; background-color: #eee; border-radius: 10px; overflow: hidden; cursor: pointer; border: 1px solid #ccc; }
         .slot img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
         .slot::after { content: "+"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #aaa; font-size: 3rem; }
         .slot.has-img::after { display: none; }
 
         .specs-container { background: var(--parchment); border: 1px solid #ccc; border-radius: 12px; overflow: hidden; margin-bottom: 25px; }
-        .specs-header { 
-            background: #eee; padding: 20px; font-weight: bold; font-size: 1.6rem; 
-            border-bottom: 4px solid var(--primary); cursor: pointer;
-            display: flex; align-items: center; justify-content: flex-start;
-            user-select: none;
-        }
-        .specs-header::before {
-            content: '▶'; display: inline-block; margin-right: 15px; font-size: 1.1rem;
-            transition: transform 0.2s; color: var(--grey);
-        }
+        .specs-header { background: #eee; padding: 20px; font-weight: bold; font-size: 1.6rem; border-bottom: 4px solid var(--primary); cursor: pointer; display: flex; align-items: center; }
+        .specs-header::before { content: '▶'; display: inline-block; margin-right: 15px; transition: transform 0.2s; color: var(--grey); }
         .specs-header.active::before { transform: rotate(90deg); }
         .collapse-content { display: none; }
         .collapse-content.show { display: block; }
 
         table { width: 100%; border-collapse: collapse; }
         td, th { padding: 12px 10px; border-bottom: 1px solid #eee; text-align: left; font-size: 1.1rem; }
-        th { font-size: 0.85rem; text-transform: uppercase; color: #666; }
         input, select, textarea { width: 100%; padding: 20px; margin: 10px 0; border: 1px solid #bbb; border-radius: 8px; box-sizing: border-box; font-size: 1.4rem; }
-        .table-input { padding: 10px; margin: 4px 0; font-size: 1.1rem; }
 
-        .btn { padding: 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.4rem; transition: opacity 0.2s; text-align: center; display: block; width: 100%; box-sizing: border-box; }
+        .btn { padding: 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.4rem; width: 100%; }
         .btn-success { background: var(--success); color: white; }
-        .btn-inline { background:none; padding:10px 0; font-size:1.1rem; width:auto; display:inline-block; border: none; cursor: pointer; font-weight: bold; }
-        .btn-edit { background: var(--edit); color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.9rem; border: none; cursor: pointer; width: 100%; min-width: 80px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-transform: uppercase; }
+        .btn-edit { background: var(--edit); color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.9rem; border: none; cursor: pointer; text-transform: uppercase; }
+        .btn-danger-sm { background: var(--danger); color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.9rem; border: none; cursor: pointer; text-transform: uppercase; }
         
-        .btn-img-del { 
-            position: absolute; top: 4px; right: 4px; 
-            background: var(--danger); color: white; 
-            width: 22px; height: 22px; line-height: 22px; 
-            text-align: center; border-radius: 4px; 
-            font-size: 0.75rem; border: none; cursor: pointer; 
-            padding: 0; font-weight: bold; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
+        .log-entry { border-left: 12px solid var(--royal); padding: 15px 25px; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-left-width: 12px; border-radius: 0 12px 12px 0; position: relative; }
+        .mileage-badge { background: var(--royal); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
+        .log-work-title { font-weight: 800; font-size: 1.7rem; color: var(--dark); margin: 10px 0; }
+        .log-notes-text { font-size: 1.3rem; white-space: pre-wrap; color: #333; background: #f9f9f9; padding: 10px; border-radius: 5px; }
 
-        .btn-danger-sm { background: var(--danger); color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.9rem; border: none; cursor: pointer; width: 100%; min-width: 80px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-transform: uppercase; }
-        .btn-x { background: var(--danger); color: white; width: 28px; height: 28px; line-height: 28px; text-align: center; border-radius: 4px; font-size: 1rem; border: none; cursor: pointer; padding: 0; font-weight: bold; }
-        .btn-csv { background: var(--grey); color: white; font-size: 1.2rem; padding: 15px; border-radius: 8px; border: none; cursor: pointer; margin: 10px 0 30px 0; }
-        
-        .log-entry { border-left: 12px solid var(--royal); padding: 15px 25px; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-left-width: 12px; border-radius: 0 12px 12px 0; display: flex; flex-direction: column; gap: 8px; position: relative; }
-        .mileage-badge { background: var(--royal); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 1.2rem; display: inline-block; }
-        .log-date { font-weight: 800; color: #555; font-size: 1.3rem; }
-        .log-work-title { font-weight: 800; font-size: 1.7rem; color: var(--dark); line-height: 1.2; margin-top: 5px; }
-        .log-notes-text { font-size: 1.3rem; white-space: pre-wrap; color: #333; line-height: 1.4; background: #fdfdfd; padding: 8px; border-radius: 5px; border: 1px solid #f0f0f0; }
-        
-        .v-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; background: var(--parchment); }
-        .v-spec-item { display: flex; flex-direction: column; }
-        .v-spec-item label { font-size: 0.8rem; text-transform: uppercase; color: #888; margin-bottom: 2px; }
-        .v-spec-item input { padding: 8px; font-size: 1.1rem; margin: 0; }
-
+        .v-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
         .hidden { display: none !important; }
-        .flex-header { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -116,14 +74,15 @@
     <label for="importFile">📥 Import Backup (JSON)
         <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(event)">
     </label>
+    
+    <a onclick="closeApp()" style="color: #fff; border-top: 1px solid #333; margin-top: 20px;">🚪 Close App</a>
+    
     <a onclick="wipeData()" style="color: var(--danger); margin-top: 50px;">⚠️ Wipe All Data</a>
 </div>
 
 <div class="navbar">
     <button class="hamburger" onclick="openNav()">&#9776;</button>
-    <div class="nav-title-group">
-        <span class="nav-brand">GARAGE PRO</span>
-    </div>
+    <span class="nav-brand">GARAGE PRO</span>
     <div></div>
 </div>
 
@@ -131,14 +90,12 @@
     <div class="card">
         <label>VEHICLE</label>
         <select id="vehicleSelector" onchange="switchVehicle()"></select>
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <button class="btn-inline" style="color:var(--primary);" onclick="toggleNewVehicleForm()">+ Add New Vehicle</button>
-            <button id="deleteVehicleBtn" class="btn-inline hidden" style="color:var(--danger);" onclick="deleteCurrentVehicle()">- Delete Current Vehicle</button>
-        </div>
+        <button class="btn btn-success" style="margin-top:15px;" onclick="toggleNewVehicleForm()">+ Add New Vehicle</button>
+        <button id="deleteVehicleBtn" class="btn hidden" style="background:var(--danger); color:white; margin-top:10px;" onclick="deleteCurrentVehicle()">Delete Current Vehicle</button>
     </div>
 
     <div id="newVehicleForm" class="card hidden">
-        <input type="text" id="v_name" placeholder="Name (e.g. 2017 Ram 2500)">
+        <input type="text" id="v_name" placeholder="Vehicle Name (e.g. 2017 Ram 2500)">
         <button class="btn btn-success" onclick="addNewVehicle()">Save Vehicle</button>
     </div>
 
@@ -149,81 +106,27 @@
             <div class="specs-header active" onclick="toggleSection(this, 'vSpecsContent')">Vehicle Specs</div>
             <div id="vSpecsContent" class="collapse-content show">
                 <div class="v-specs-grid">
-                    <div class="v-spec-item" style="grid-column: span 2;"><label>VIN</label><input type="text" id="vs_vin" onchange="saveVSpecs()" placeholder="17-Digit VIN"></div>
-                    <div class="v-spec-item"><label>License Plate</label><input type="text" id="vs_plate" onchange="saveVSpecs()" placeholder="Plate #"></div>
-                    <div class="v-spec-item"><label>Engine</label><input type="text" id="vs_engine" onchange="saveVSpecs()" placeholder="6.7L Cummins"></div>
-                    <div class="v-spec-item"><label>Trans</label><input type="text" id="vs_trans" onchange="saveVSpecs()" placeholder="68RFE / AISIN"></div>
-                    <div class="v-spec-item"><label>Drive</label><input type="text" id="vs_drive" onchange="saveVSpecs()" placeholder="4WD / AWD / RWD"></div>
-                    <div class="v-spec-item"><label>Fuel</label><input type="text" id="vs_fuel" onchange="saveVSpecs()" placeholder="Diesel / 91 Octane"></div>
-                    <div class="v-spec-item"><label>Oil Cap</label><input type="text" id="vs_oil" onchange="saveVSpecs()" placeholder="12 Quarts"></div>
-                    <div class="v-spec-item" style="grid-column: span 2;"><label>Coolant Spec</label><input type="text" id="vs_coolant" onchange="saveVSpecs()" placeholder="OAT Purple MS-12106"></div>
+                    <div style="grid-column: span 2;"><label style="font-size:0.8rem;">VIN</label><input type="text" id="vs_vin" onchange="saveVSpecs()"></div>
+                    <div><label style="font-size:0.8rem;">Engine</label><input type="text" id="vs_engine" onchange="saveVSpecs()"></div>
+                    <div><label style="font-size:0.8rem;">Oil Cap</label><input type="text" id="vs_oil" onchange="saveVSpecs()"></div>
                 </div>
             </div>
         </div>
 
-        <div class="specs-container">
-            <div class="specs-header" onclick="toggleSection(this, 'specsContent')">Torque and Capacities</div>
-            <div id="specsContent" class="collapse-content">
-                <table>
-                    <thead><tr><th>Item</th><th>Spec/Value</th><th>Notes</th><th></th></tr></thead>
-                    <tbody id="specsBody"></tbody>
-                    <tfoot>
-                        <tr>
-                            <td><input type="text" id="si" class="table-input" placeholder="Oil Pan Bolt"></td>
-                            <td><input type="text" id="sn" class="table-input" placeholder="37 ft-lbs"></td>
-                            <td><input type="text" id="sb" class="table-input" placeholder="1-1/16 socket"></td>
-                            <td style="text-align:right"><button onclick="addItem('specs')" class="btn-success" style="padding: 8px 15px;">+</button></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-        <div class="specs-container">
-            <div class="specs-header" onclick="toggleSection(this, 'partsContent')">Parts List</div>
-            <div id="partsContent" class="collapse-content">
-                <table>
-                    <thead><tr><th>Part Name</th><th>Number/Spec</th><th>Store/Brand</th><th></th></tr></thead>
-                    <tbody id="partsBody"></tbody>
-                    <tfoot>
-                        <tr>
-                            <td><input type="text" id="pi" class="table-input" placeholder="Oil Filter"></td>
-                            <td><input type="text" id="pn" class="table-input" placeholder="1-5735"></td>
-                            <td><input type="text" id="pb" class="table-input" placeholder="Wix/Amazon"></td>
-                            <td style="text-align:right"><button onclick="addItem('parts')" class="btn-success" style="padding: 8px 15px;">+</button></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-        <div class="flex-header"><h3 id="formTitle">New Service Log</h3></div>
-        <div class="card" id="logFormContainer">
-            <input type="number" id="log_miles" placeholder="Odometer Reading">
-            <input type="text" id="log_who" placeholder="Performed By">
+        <div class="card">
+            <h3>New Service Log</h3>
+            <input type="number" id="log_miles" placeholder="Odometer">
             <input type="text" id="log_work" placeholder="Work Performed">
-            <textarea id="log_notes" rows="4" placeholder="Detailed Notes..."></textarea>
-            
-            <p style="font-weight: bold; margin: 20px 0 10px 0; font-size: 0.9rem;">INVOICES / HEADERS (UP TO 6)</p>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;" id="logInputGallery"></div>
-            
-            <div id="formActions" style="margin-top: 30px;">
-                <button class="btn btn-success" id="saveBtn" onclick="addLog()">Save Entry</button>
-                <button class="btn hidden" id="cancelEditBtn" onclick="clearLogForm()" style="background:var(--grey); color:white; margin-top:10px;">Cancel Edit</button>
-            </div>
+            <textarea id="log_notes" rows="3" placeholder="Notes..."></textarea>
+            <button class="btn btn-success" onclick="addLog()">Save Entry</button>
         </div>
 
-        <button class="btn btn-csv" onclick="downloadCSV()">Download Service Logs (CSV)</button>
-
-        <div class="specs-container">
-            <div class="specs-header active" onclick="toggleSection(this, 'logHistory')">Service History</div>
-            <div id="logHistory" class="collapse-content show" style="padding: 15px;"></div>
-        </div>
+        <div id="logHistory"></div>
     </div>
 </div>
 
 <script>
-    // PWA Service Worker Registration - UPDATED SCOPE FOR GITHUB
+    // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js', { scope: './' })
@@ -232,31 +135,26 @@
         });
     }
 
+    // Close App Function
+    function closeApp() {
+        if (confirm("Exit Garage Pro?")) {
+            window.close();
+            window.history.back(); // Fallback
+        }
+    }
+
     let fleet = JSON.parse(localStorage.getItem('garageFleet')) || [];
     let currentIdx = -1;
-    let editLogIdx = -1;
-    let tempLogImages = [null, null, null, null, null, null];
-
-    function toggleSection(header, contentId) {
-        header.classList.toggle('active');
-        document.getElementById(contentId).classList.toggle('show');
-    }
 
     function openNav() { document.getElementById("mySidenav").style.width = "300px"; }
     function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
+    function toggleSection(header, id) { header.classList.toggle('active'); document.getElementById(id).classList.toggle('show'); }
 
     function init() {
         const s = document.getElementById('vehicleSelector');
         s.innerHTML = fleet.length ? '' : '<option value="">-- Select --</option>';
         fleet.forEach((v, i) => { s.innerHTML += `<option value="${i}">${v.name}</option>`; });
-        
-        if (fleet.length > 0) { 
-            currentIdx = (currentIdx === -1) ? 0 : currentIdx;
-            s.value = currentIdx; 
-            switchVehicle(); 
-        } else {
-            document.getElementById('mainContent').classList.add('hidden');
-        }
+        if (fleet.length > 0) { currentIdx = 0; s.value = 0; switchVehicle(); }
     }
 
     function toggleNewVehicleForm() { document.getElementById('newVehicleForm').classList.toggle('hidden'); }
@@ -264,250 +162,64 @@
     function addNewVehicle() {
         const name = document.getElementById('v_name').value;
         if (!name) return;
-        fleet.push({ name, parts: [], specs: [], logs: [], images: [], vSpecs: {} });
+        fleet.push({ name, logs: [], images: [null,null,null,null,null,null], vSpecs: {} });
         save(); init(); toggleNewVehicleForm();
     }
 
     function switchVehicle() {
-        const s = document.getElementById('vehicleSelector');
-        currentIdx = s.value !== "" ? parseInt(s.value) : -1;
-        if (currentIdx === -1) return;
-        
+        currentIdx = parseInt(document.getElementById('vehicleSelector').value);
         document.getElementById('mainContent').classList.remove('hidden');
         document.getElementById('deleteVehicleBtn').classList.remove('hidden');
-        
-        loadVSpecs();
-        renderMainGallery();
-        renderLogInputGallery();
-        renderParts();
-        renderSpecs();
-        renderLogs();
+        loadVSpecs(); renderLogs();
     }
 
     function loadVSpecs() {
         const vs = fleet[currentIdx].vSpecs || {};
-        const ids = ['vin', 'plate', 'engine', 'trans', 'drive', 'fuel', 'oil', 'coolant'];
-        ids.forEach(id => document.getElementById('vs_'+id).value = vs[id] || '');
+        document.getElementById('vs_vin').value = vs.vin || '';
+        document.getElementById('vs_engine').value = vs.engine || '';
+        document.getElementById('vs_oil').value = vs.oil || '';
     }
 
     function saveVSpecs() {
-        const vs = {};
-        ['vin', 'plate', 'engine', 'trans', 'drive', 'fuel', 'oil', 'coolant'].forEach(id => {
-            vs[id] = document.getElementById('vs_'+id).value;
-        });
-        fleet[currentIdx].vSpecs = vs;
+        fleet[currentIdx].vSpecs = {
+            vin: document.getElementById('vs_vin').value,
+            engine: document.getElementById('vs_engine').value,
+            oil: document.getElementById('vs_oil').value
+        };
         save();
     }
 
-    async function compressImage(file) {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800;
-                    const scale = MAX_WIDTH / img.width;
-                    canvas.width = MAX_WIDTH;
-                    canvas.height = img.height * scale;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    resolve(canvas.toDataURL('image/jpeg', 0.7));
-                };
-            };
-        });
-    }
-
-    function renderMainGallery() {
-        const g = document.getElementById('mainGallery'); g.innerHTML = '';
-        const v = fleet[currentIdx];
-        for (let i = 0; i < 6; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'slot' + (v.images[i] ? ' has-img' : '');
-            if (v.images[i]) {
-                slot.innerHTML = `<img src="${v.images[i]}"><button class="btn-img-del" onclick="deleteMainImg(event,${i})">X</button>`;
-            } else {
-                slot.onclick = () => document.getElementById(`main-input-${i}`).click();
-                slot.innerHTML = `<input type="file" id="main-input-${i}" class="hidden" accept="image/*" onchange="uploadMainImg(event,${i})">`;
-            }
-            g.appendChild(slot);
-        }
-    }
-
-    async function uploadMainImg(e, i) {
-        if (e.target.files[0]) {
-            fleet[currentIdx].images[i] = await compressImage(e.target.files[0]);
-            save(); renderMainGallery();
-        }
-    }
-
-    function deleteMainImg(e, i) { e.stopPropagation(); fleet[currentIdx].images[i] = null; save(); renderMainGallery(); }
-
-    function renderLogInputGallery() {
-        const g = document.getElementById('logInputGallery'); g.innerHTML = '';
-        for (let i = 0; i < 6; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'slot' + (tempLogImages[i] ? ' has-img' : '');
-            if (tempLogImages[i]) {
-                slot.innerHTML = `<img src="${tempLogImages[i]}"><button class="btn-img-del" onclick="deleteTempImg(event,${i})">X</button>`;
-            } else {
-                slot.onclick = () => document.getElementById(`log-input-${i}`).click();
-                slot.innerHTML = `<input type="file" id="log-input-${i}" class="hidden" accept="image/*" onchange="uploadTempImg(event,${i})">`;
-            }
-            g.appendChild(slot);
-        }
-    }
-
-    async function uploadTempImg(e, i) {
-        if (e.target.files[0]) {
-            tempLogImages[i] = await compressImage(e.target.files[0]);
-            renderLogInputGallery();
-        }
-    }
-
-    function deleteTempImg(e, i) { e.stopPropagation(); tempLogImages[i] = null; renderLogInputGallery(); }
-
-    function renderParts() {
-        const b = document.getElementById('partsBody'); b.innerHTML = '';
-        (fleet[currentIdx].parts || []).forEach((p, i) => {
-            b.innerHTML += `<tr><td><b>${p.item}</b></td><td>${p.val}</td><td>${p.tool}</td><td style="text-align:right"><button class="btn-x" onclick="deleteItem('parts',${i})">X</button></td></tr>`;
-        });
-    }
-
-    function renderSpecs() {
-        const b = document.getElementById('specsBody'); b.innerHTML = '';
-        (fleet[currentIdx].specs || []).forEach((s, i) => {
-            b.innerHTML += `<tr><td><b>${s.item}</b></td><td>${s.val}</td><td>${s.tool}</td><td style="text-align:right"><button class="btn-x" onclick="deleteItem('specs',${i})">X</button></td></tr>`;
-        });
-    }
-
-    function addItem(type) {
-        let i, v, t;
-        if(type === 'parts') {
-            i = document.getElementById('pi'); v = document.getElementById('pn'); t = document.getElementById('pb');
-        } else {
-            i = document.getElementById('si'); v = document.getElementById('sn'); t = document.getElementById('sb');
-        }
-        if(!i.value) return;
-        if(!fleet[currentIdx][type]) fleet[currentIdx][type] = [];
-        fleet[currentIdx][type].push({ item: i.value, val: v.value, tool: t.value });
-        i.value = ''; v.value = ''; t.value = ''; save(); 
-        if(type === 'parts') renderParts(); else renderSpecs();
-    }
-
-    function deleteItem(type, i) { 
-        fleet[currentIdx][type].splice(i, 1); save(); 
-        if(type === 'parts') renderParts(); else renderSpecs();
-    }
-
     function addLog() {
-        const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes'), who = document.getElementById('log_who');
+        const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes');
         if(!m.value || !w.value) return;
-        
-        const entry = {
-            miles: m.value, work: w.value, notes: n.value, who: who.value,
-            date: (editLogIdx > -1) ? fleet[currentIdx].logs[editLogIdx].date : new Date().toLocaleDateString(),
-            imgs: tempLogImages.filter(img => img !== null)
-        };
-
-        if(editLogIdx > -1) {
-            fleet[currentIdx].logs[editLogIdx] = entry;
-        } else {
-            fleet[currentIdx].logs.push(entry);
-        }
-
-        save(); clearLogForm(); renderLogs();
+        fleet[currentIdx].logs.push({ miles: m.value, work: w.value, notes: n.value, date: new Date().toLocaleDateString() });
+        save(); m.value = ''; w.value = ''; n.value = ''; renderLogs();
     }
 
     function renderLogs() {
         const h = document.getElementById('logHistory'); h.innerHTML = '';
-        const logs = fleet[currentIdx].logs || [];
-        logs.slice().reverse().forEach((log, revIdx) => {
-            const idx = (logs.length - 1) - revIdx;
-            let imgHtml = log.imgs?.length ? `<div class="log-gallery-grid">${log.imgs.map(src => `<div class="slot has-img"><img src="${src}"></div>`).join('')}</div>` : '';
-            h.innerHTML += `
-                <div class="log-entry">
-                    <div class="log-meta">
-                        <div class="log-meta-top">
-                            <div style="display:flex; flex-direction:column;">
-                                <span class="log-date">${log.date}</span>
-                                <span class="mileage-badge">${parseInt(log.miles).toLocaleString()} MI</span>
-                            </div>
-                            <div style="display:flex; flex-direction:column; gap:5px;">
-                                <button class="btn-edit" onclick="editLog(${idx})">EDIT</button>
-                                <button class="btn-danger-sm" onclick="deleteLog(${idx})">DEL</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="log-work-title">${log.work}</div>
-                    ${log.notes ? `<div class="log-notes-text">${log.notes}</div>` : ''}
-                    ${imgHtml}
-                </div>`;
+        (fleet[currentIdx].logs || []).slice().reverse().forEach((log) => {
+            h.innerHTML += `<div class="log-entry">
+                <span class="log-date">${log.date}</span> | <span class="mileage-badge">${log.miles} MI</span>
+                <div class="log-work-title">${log.work}</div>
+                <div class="log-notes-text">${log.notes}</div>
+            </div>`;
         });
     }
 
-    function editLog(idx) {
-        editLogIdx = idx;
-        const log = fleet[currentIdx].logs[idx];
-        document.getElementById('log_miles').value = log.miles;
-        document.getElementById('log_work').value = log.work;
-        document.getElementById('log_notes').value = log.notes;
-        document.getElementById('log_who').value = log.who;
-        
-        tempLogImages = [null, null, null, null, null, null];
-        if (log.imgs) {
-            log.imgs.forEach((img, i) => tempLogImages[i] = img);
-        }
-        
-        document.getElementById('formTitle').innerText = "Editing Service Log";
-        document.getElementById('saveBtn').innerText = "Update Entry";
-        document.getElementById('cancelEditBtn').classList.remove('hidden');
-        renderLogInputGallery();
-        document.getElementById('logFormContainer').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function deleteLog(idx) { if(confirm("Delete log?")) { fleet[currentIdx].logs.splice(idx, 1); save(); renderLogs(); } }
-
-    function deleteCurrentVehicle() { if(confirm("Delete this entire vehicle?")) { fleet.splice(currentIdx, 1); currentIdx = fleet.length > 0 ? 0 : -1; save(); init(); } }
-
-    function clearLogForm() {
-        editLogIdx = -1;
-        document.getElementById('log_miles').value = '';
-        document.getElementById('log_work').value = '';
-        document.getElementById('log_notes').value = '';
-        document.getElementById('log_who').value = '';
-        document.getElementById('formTitle').innerText = "New Service Log";
-        document.getElementById('saveBtn').innerText = "Save Entry";
-        document.getElementById('cancelEditBtn').classList.add('hidden');
-        tempLogImages = [null, null, null, null, null, null];
-        renderLogInputGallery();
-    }
-
     function save() { localStorage.setItem('garageFleet', JSON.stringify(fleet)); }
-
     function exportData() {
         const a = document.createElement('a');
         a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fleet));
-        a.download = "fleet_backup.json"; a.click();
+        a.download = "garage_backup.json"; a.click();
     }
-
     function importData(e) {
         const r = new FileReader();
         r.onload = (ev) => { fleet = JSON.parse(ev.target.result); save(); init(); closeNav(); };
         r.readAsText(e.target.files[0]);
     }
-
-    function downloadCSV() {
-        const v = fleet[currentIdx];
-        let csv = "Date,Mileage,Work,Tech,Notes\n";
-        v.logs.forEach(l => { csv += `"${l.date}","${l.miles}","${l.work}","${l.who}","${l.notes.replace(/"/g, '""')}"\n`; });
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${v.name}.csv`; a.click();
-    }
-
-    function wipeData() { if(confirm("Wipe all?")) { localStorage.clear(); location.reload(); } }
+    function wipeData() { if(confirm("Wipe all data?")) { localStorage.clear(); location.reload(); } }
+    function deleteCurrentVehicle() { if(confirm("Delete this vehicle?")) { fleet.splice(currentIdx, 1); save(); location.reload(); } }
 
     init();
 </script>

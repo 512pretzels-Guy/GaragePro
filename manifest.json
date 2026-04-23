@@ -1,7 +1,7 @@
 {
   "name": "Garage Fleet Pro",
   "short_name": "GaragePro",
-  "start_url": "./Garage Pro32.html",
+  "start_url": "./GaragePro.html",
   "display": "standalone",
   "background_color": "#212529",
   "theme_color": "#212529",

@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="manifest" href="./manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Garage Fleet Pro">
-    <meta name="apple-mobile-web-app-title" content="Garage Fleet Pro">
     <meta name="theme-color" content="#212529">
-    
     <title>Garage Fleet Pro</title>
     
     <style>
@@ -24,7 +19,7 @@
             margin: 0; padding: 0; background-color: #e9ecef; color: var(--dark); font-size: 1.5rem; 
         }
 
-        /* Navbar & Brand */
+        /* Navbar */
         .navbar { background: var(--dark); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; height: 70px; box-sizing: border-box; }
         .nav-left { display: flex; align-items: center; gap: 15px; }
         .nav-brand-group { display: flex; align-items: center; gap: 12px; }
@@ -32,36 +27,41 @@
         .nav-brand { font-weight: bold; font-size: 1.4rem; letter-spacing: 1px; }
         .hamburger { font-size: 2.5rem; cursor: pointer; background: none; border: none; color: white; padding: 0; }
 
-        /* Sidebar */
+        /* Sidebar & Modals */
         .side-menu { height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.3s; padding-top: 60px; }
         .side-menu a, .side-menu label { padding: 15px 25px; text-decoration: none; font-size: 1.6rem; color: #818181; display: block; cursor: pointer; }
         .side-menu .closebtn { position: absolute; top: 0; right: 25px; font-size: 50px; }
-
-        /* Custom Exit Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .modal-buttons { display: flex; gap: 15px; margin-top: 25px; }
-        
+        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; }
+
+        /* Layout */
         .container { max-width: 900px; margin: auto; padding: 15px; padding-bottom: 50px; }
         .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-        /* Vehicle Detail Styling */
+        /* Collapsible Sections */
         .specs-container { background: var(--parchment); border: 1px solid #ccc; border-radius: 12px; overflow: hidden; margin-bottom: 25px; }
         .specs-header { background: #eee; padding: 20px; font-weight: bold; font-size: 1.6rem; border-bottom: 4px solid var(--primary); cursor: pointer; display: flex; align-items: center; }
         .specs-header::before { content: '▶'; display: inline-block; margin-right: 15px; transition: transform 0.2s; color: var(--grey); }
         .specs-header.active::before { transform: rotate(90deg); }
-        .collapse-content { display: none; }
+        .collapse-content { display: none; padding: 15px; }
         .collapse-content.show { display: block; }
 
-        .log-entry { border-left: 12px solid var(--royal); padding: 15px 25px; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-radius: 0 12px 12px 0; }
-        .mileage-badge { background: var(--royal); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
-
-        input, select, textarea { width: 100%; padding: 20px; margin: 10px 0; border: 1px solid #bbb; border-radius: 8px; box-sizing: border-box; font-size: 1.4rem; }
-        .btn { padding: 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.4rem; width: 100%; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-grey { background: var(--grey); color: white; }
-        .btn-danger-modal { background: var(--danger); color: white; }
+        /* Tables & Inputs */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        td, th { padding: 12px 10px; border-bottom: 1px solid #eee; text-align: left; font-size: 1.2rem; }
+        th { background: #f1f1f1; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 18px; margin: 10px 0; border: 1px solid #bbb; border-radius: 8px; box-sizing: border-box; font-size: 1.3rem; }
         
+        .btn { padding: 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.3rem; width: 100%; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger-sm { background: var(--danger); color: white; padding: 8px 12px; font-size: 1rem; width: auto; }
+
+        /* Service Log Entries */
+        .log-entry { border-left: 12px solid var(--royal); padding: 15px 25px; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-left-width: 12px; border-radius: 0 12px 12px 0; }
+        .mileage-badge { background: var(--royal); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
+        .log-work-title { font-weight: 800; font-size: 1.6rem; color: var(--dark); margin: 12px 0; }
+        .log-notes-text { font-size: 1.2rem; color: #333; background: #f9f9f9; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -69,11 +69,11 @@
 
 <div id="exitModal" class="modal-overlay hidden">
     <div class="modal-content">
-        <h2 style="margin-top:0;">Garage Fleet Pro</h2>
-        <p>Are you sure you want to exit the app?</p>
-        <div class="modal-buttons">
-            <button class="btn btn-grey" onclick="hideExitModal()">Cancel</button>
-            <button class="btn btn-danger-modal" onclick="executeClose()">Exit</button>
+        <h2>Garage Fleet Pro</h2>
+        <p>Are you sure you want to exit?</p>
+        <div style="display:flex; gap:15px; margin-top:20px;">
+            <button class="btn btn-grey" onclick="hideExitModal()" style="background:#6c757d; color:white;">Cancel</button>
+            <button class="btn" onclick="executeClose()" style="background:var(--danger); color:white;">Exit</button>
         </div>
     </div>
 </div>
@@ -84,7 +84,6 @@
     <label for="importFile">📥 Import Backup (JSON)
         <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(event)">
     </label>
-    
     <a onclick="closeApp()" style="color: #fff; border-top: 1px solid #333; margin-top: 20px;">🚪 Close App</a>
     <a onclick="wipeData()" style="color: var(--danger); margin-top: 50px;">⚠️ Wipe All Data</a>
 </div>
@@ -93,19 +92,17 @@
     <div class="nav-left">
         <button class="hamburger" onclick="openNav()">&#9776;</button>
         <div class="nav-brand-group">
-            <span class="nav-brand">GARAGE FLEET PRO</span>
             <img src="./icon-512.png" alt="Logo" class="nav-logo">
+            <span class="nav-brand">GARAGE PRO</span>
         </div>
     </div>
-    <div></div>
 </div>
 
 <div class="container">
     <div class="card">
-        <label>VEHICLE</label>
+        <label>SELECT VEHICLE</label>
         <select id="vehicleSelector" onchange="switchVehicle()"></select>
-        <button class="btn btn-success" style="margin-top:15px;" onclick="toggleNewVehicleForm()">+ Add New Vehicle</button>
-        <button id="deleteVehicleBtn" class="btn hidden" style="background:var(--danger); color:white; margin-top:10px;" onclick="deleteCurrentVehicle()">Delete Current Vehicle</button>
+        <button class="btn btn-success" style="margin-top:10px;" onclick="toggleNewVehicleForm()">+ Add New Vehicle</button>
     </div>
 
     <div id="newVehicleForm" class="card hidden">
@@ -114,53 +111,61 @@
     </div>
 
     <div id="mainContent" class="hidden">
+        
         <div class="specs-container">
-            <div class="specs-header active" onclick="toggleSection(this, 'vSpecsContent')">Vehicle Specs</div>
-            <div id="vSpecsContent" class="collapse-content show">
-                <div style="padding: 15px;">
-                    <label style="font-size:0.8rem;">VIN</label><input type="text" id="vs_vin" onchange="saveVSpecs()">
-                    <label style="font-size:0.8rem;">Engine</label><input type="text" id="vs_engine" onchange="saveVSpecs()">
-                    <label style="font-size:0.8rem;">Oil Capacity</label><input type="text" id="vs_oil" onchange="saveVSpecs()">
+            <div class="specs-header active" onclick="toggleSection(this, 'torqueContent')">Torques & Fluid Specs</div>
+            <div id="torqueContent" class="collapse-content show">
+                <table>
+                    <thead><tr><th>Item</th><th>Spec / Torque</th><th>Action</th></tr></thead>
+                    <tbody id="torqueTableBody"></tbody>
+                </table>
+                <div style="margin-top:15px; border-top:1px solid #ccc; padding-top:10px;">
+                    <input type="text" id="new_spec_item" placeholder="Item (e.g. Oil Plug)">
+                    <input type="text" id="new_spec_val" placeholder="Value (e.g. 30 ft-lbs)">
+                    <button class="btn btn-success" onclick="addSpec()">+ Add Spec</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="specs-container">
+            <div class="specs-header" onclick="toggleSection(this, 'partsContent')">Frequent Parts & Filters</div>
+            <div id="partsContent" class="collapse-content">
+                <table>
+                    <thead><tr><th>Part Name</th><th>Part Number</th><th>Action</th></tr></thead>
+                    <tbody id="partsTableBody"></tbody>
+                </table>
+                <div style="margin-top:15px; border-top:1px solid #ccc; padding-top:10px;">
+                    <input type="text" id="new_part_name" placeholder="Part (e.g. Fuel Filter)">
+                    <input type="text" id="new_part_num" placeholder="Number (e.g. Mopar 68157291AA)">
+                    <button class="btn btn-success" onclick="addPart()">+ Add Part</button>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h3>New Service Log</h3>
-            <input type="number" id="log_miles" placeholder="Odometer">
-            <input type="text" id="log_work" placeholder="Work Performed">
-            <textarea id="log_notes" rows="3" placeholder="Notes..."></textarea>
+            <h3>New Service Entry</h3>
+            <input type="number" id="log_miles" placeholder="Odometer Reading">
+            <input type="text" id="log_work" placeholder="Work Performed (e.g. Oil Change)">
+            <textarea id="log_notes" rows="3" placeholder="Additional Notes..."></textarea>
             <button class="btn btn-success" onclick="addLog()">Save Entry</button>
         </div>
 
         <div id="logHistory"></div>
+        
+        <button id="deleteVehicleBtn" class="btn" style="background:none; color:var(--danger); margin-top:40px; font-size:1rem;" onclick="deleteCurrentVehicle()">Delete This Vehicle Permanently</button>
     </div>
 </div>
 
 <script>
-    // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js', { scope: './' })
-                .then(reg => console.log('Service Worker Registered'))
-                .catch(err => console.log('Service Worker Failed', err));
+            navigator.serviceWorker.register('./sw.js', { scope: './' });
         });
     }
 
-    // Custom Close App Logic
-    function closeApp() {
-        document.getElementById('exitModal').classList.remove('hidden');
-        closeNav();
-    }
-
-    function hideExitModal() {
-        document.getElementById('exitModal').classList.add('hidden');
-    }
-
-    function executeClose() {
-        window.close();
-        window.history.back(); 
-    }
+    function closeApp() { document.getElementById('exitModal').classList.remove('hidden'); closeNav(); }
+    function hideExitModal() { document.getElementById('exitModal').classList.add('hidden'); }
+    function executeClose() { window.close(); window.history.back(); }
 
     let fleet = JSON.parse(localStorage.getItem('garageFleet')) || [];
     let currentIdx = -1;
@@ -171,9 +176,13 @@
 
     function init() {
         const s = document.getElementById('vehicleSelector');
-        s.innerHTML = fleet.length ? '' : '<option value="">-- Select --</option>';
+        s.innerHTML = fleet.length ? '' : '<option value="">-- Select Vehicle --</option>';
         fleet.forEach((v, i) => { s.innerHTML += `<option value="${i}">${v.name}</option>`; });
-        if (fleet.length > 0) { currentIdx = 0; s.value = 0; switchVehicle(); }
+        if (fleet.length > 0) { 
+            const lastUsed = localStorage.getItem('lastVehicleIdx');
+            currentIdx = (lastUsed !== null && fleet[lastUsed]) ? parseInt(lastUsed) : 0;
+            s.value = currentIdx; switchVehicle(); 
+        }
     }
 
     function toggleNewVehicleForm() { document.getElementById('newVehicleForm').classList.toggle('hidden'); }
@@ -181,47 +190,63 @@
     function addNewVehicle() {
         const name = document.getElementById('v_name').value;
         if (!name) return;
-        fleet.push({ name, logs: [], vSpecs: {} });
+        fleet.push({ name, logs: [], torques: [], parts: [] });
         save(); init(); toggleNewVehicleForm();
     }
 
     function switchVehicle() {
         currentIdx = parseInt(document.getElementById('vehicleSelector').value);
+        localStorage.setItem('lastVehicleIdx', currentIdx);
         document.getElementById('mainContent').classList.remove('hidden');
-        document.getElementById('deleteVehicleBtn').classList.remove('hidden');
-        loadVSpecs(); renderLogs();
+        renderSpecs(); renderParts(); renderLogs();
     }
 
-    function loadVSpecs() {
-        const vs = fleet[currentIdx].vSpecs || {};
-        document.getElementById('vs_vin').value = vs.vin || '';
-        document.getElementById('vs_engine').value = vs.engine || '';
-        document.getElementById('vs_oil').value = vs.oil || '';
+    // Specs Logic
+    function addSpec() {
+        const i = document.getElementById('new_spec_item'), v = document.getElementById('new_spec_val');
+        if(!i.value || !v.value) return;
+        if(!fleet[currentIdx].torques) fleet[currentIdx].torques = [];
+        fleet[currentIdx].torques.push({ item: i.value, val: v.value });
+        i.value = ''; v.value = ''; save(); renderSpecs();
     }
-
-    function saveVSpecs() {
-        fleet[currentIdx].vSpecs = {
-            vin: document.getElementById('vs_vin').value,
-            engine: document.getElementById('vs_engine').value,
-            oil: document.getElementById('vs_oil').value
-        };
-        save();
+    function renderSpecs() {
+        const b = document.getElementById('torqueTableBody'); b.innerHTML = '';
+        (fleet[currentIdx].torques || []).forEach((s, i) => {
+            b.innerHTML += `<tr><td>${s.item}</td><td>${s.val}</td><td><button class="btn-danger-sm" onclick="deleteSpec(${i})">X</button></td></tr>`;
+        });
     }
+    function deleteSpec(i) { fleet[currentIdx].torques.splice(i, 1); save(); renderSpecs(); }
 
+    // Parts Logic
+    function addPart() {
+        const n = document.getElementById('new_part_name'), p = document.getElementById('new_part_num');
+        if(!n.value || !p.value) return;
+        if(!fleet[currentIdx].parts) fleet[currentIdx].parts = [];
+        fleet[currentIdx].parts.push({ name: n.value, num: p.value });
+        n.value = ''; p.value = ''; save(); renderParts();
+    }
+    function renderParts() {
+        const b = document.getElementById('partsTableBody'); b.innerHTML = '';
+        (fleet[currentIdx].parts || []).forEach((p, i) => {
+            b.innerHTML += `<tr><td>${p.name}</td><td>${p.num}</td><td><button class="btn-danger-sm" onclick="deletePart(${i})">X</button></td></tr>`;
+        });
+    }
+    function deletePart(i) { fleet[currentIdx].parts.splice(i, 1); save(); renderParts(); }
+
+    // Logs Logic
     function addLog() {
         const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes');
         if(!m.value || !w.value) return;
         fleet[currentIdx].logs.push({ miles: m.value, work: w.value, notes: n.value, date: new Date().toLocaleDateString() });
         save(); m.value = ''; w.value = ''; n.value = ''; renderLogs();
     }
-
     function renderLogs() {
         const h = document.getElementById('logHistory'); h.innerHTML = '';
         (fleet[currentIdx].logs || []).slice().reverse().forEach((log) => {
             h.innerHTML += `<div class="log-entry">
                 <span class="log-date">${log.date}</span> | <span class="mileage-badge">${parseInt(log.miles).toLocaleString()} MI</span>
-                <div style="font-weight:bold; font-size:1.4rem; margin:10px 0; color:var(--dark);">${log.work}</div>
-                <div style="font-size:1.2rem; color:#333; background:#f9f9f9; padding:8px; border-radius:5px;">${log.notes}</div>
+                <div class="log-work-title">${log.work}</div>
+                <div class="log-notes-text">${log.notes}</div>
             </div>`;
         });
     }

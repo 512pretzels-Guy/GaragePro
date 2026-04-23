@@ -1,16 +1,18 @@
 {
+  "id": "/GaragePro/",
   "name": "Garage Fleet Pro",
   "short_name": "GaragePro",
   "start_url": "./GaragePro.html",
-  "scope": "./",
   "display": "standalone",
   "background_color": "#212529",
   "theme_color": "#212529",
+  "description": "Vehicle maintenance and service log tracker.",
   "icons": [
     {
-      "src": "./icon-512.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/2554/2554930.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-]
+  ]
 }

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="manifest" href="./manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#212529">
     <title>Garage Fleet Pro</title>
     
@@ -15,33 +14,27 @@
             --parchment: #fdfdfd; --royal: #4169E1; --grey: #6c757d;
         }
         
-        body { font-family: -apple-system, system-ui, sans-serif; margin: 0; background-color: #e9ecef; font-size: 1.5rem; }
+        body { font-family: -apple-system, system-ui, sans-serif; margin: 0; background-color: #e9ecef; font-size: 1.5rem; overscroll-behavior-y: contain; }
 
-        /* Navbar & Sidebar */
-        .navbar { background: var(--dark); color: white; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; height: 70px; sticky: top; z-index: 1000; }
+        .navbar { background: var(--dark); color: white; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; height: 70px; position: sticky; top: 0; z-index: 1000; }
         .nav-logo { height: 40px; width: 40px; border-radius: 6px; margin-right: 12px; }
         .hamburger { font-size: 2.5rem; cursor: pointer; background: none; border: none; color: white; }
+        
         .side-menu { height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.3s; padding-top: 60px; }
         .side-menu a, .side-menu label { padding: 15px 25px; text-decoration: none; font-size: 1.6rem; color: #818181; display: block; cursor: pointer; }
         .closebtn { position: absolute; top: 0; right: 25px; font-size: 50px; color: white; }
 
-        /* Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 85%; text-align: center; }
-
-        /* UI Elements */
         .container { max-width: 900px; margin: auto; padding: 15px; }
         .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
-        /* Gallery Grid */
-        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        /* Main Gallery Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
         .slot { position: relative; width: 100%; padding-top: 100%; background: #eee; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; }
         .slot img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
         .slot::after { content: "+"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #aaa; font-size: 2rem; }
         .slot.has-img::after { display: none; }
         .btn-img-del { position: absolute; top: 2px; right: 2px; background: var(--danger); color: white; border: none; border-radius: 4px; padding: 2px 6px; font-size: 0.8rem; z-index: 5; }
 
-        /* Collapsibles */
         .specs-container { background: var(--parchment); border: 1px solid #ccc; border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
         .specs-header { background: #eee; padding: 15px; font-weight: bold; cursor: pointer; border-bottom: 3px solid var(--primary); display: flex; align-items: center; }
         .specs-header::before { content: '▶'; margin-right: 10px; transition: 0.2s; }
@@ -49,7 +42,6 @@
         .collapse-content { display: none; padding: 15px; }
         .collapse-content.show { display: block; }
 
-        /* Tables & Inputs */
         table { width: 100%; border-collapse: collapse; }
         td, th { padding: 10px; border-bottom: 1px solid #eee; text-align: left; font-size: 1.1rem; }
         input, select, textarea { width: 100%; padding: 15px; margin: 8px 0; border: 1px solid #bbb; border-radius: 8px; font-size: 1.3rem; box-sizing: border-box; }
@@ -57,42 +49,29 @@
         .btn-success { background: var(--success); color: white; }
         .btn-danger-sm { background: var(--danger); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; }
         .btn-edit-sm { background: var(--edit); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; }
-        .btn-inline { background: none; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; padding: 10px 0; }
 
-        /* Logs */
+        /* Log Styling */
         .log-entry { border-left: 12px solid var(--royal); padding: 15px; margin-bottom: 15px; background: #fff; border: 1px solid #ddd; border-left-width: 12px; border-radius: 0 12px 12px 0; }
         .log-work-title { font-weight: 800; font-size: 1.6rem; margin: 10px 0; }
         .mileage-badge { background: var(--royal); color: white; padding: 3px 10px; border-radius: 4px; font-weight: bold; }
+        .log-img-preview { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
         
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<div id="exitModal" class="modal-overlay hidden">
-    <div class="modal-content">
-        <h2>Garage Fleet Pro</h2>
-        <p>Exit the application?</p>
-        <div style="display:flex; gap:10px; margin-top:20px;">
-            <button class="btn" style="background:var(--grey); color:white;" onclick="hideExitModal()">Cancel</button>
-            <button class="btn" style="background:var(--danger); color:white;" onclick="executeClose()">Exit</button>
-        </div>
-    </div>
-</div>
-
 <div id="mySidenav" class="side-menu">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a onclick="exportData()">📤 Export Backup</a>
     <label for="importFile">📥 Import Backup<input type="file" id="importFile" class="hidden" onchange="importData(event)"></label>
-    <a onclick="closeApp()">🚪 Close App</a>
     <a onclick="wipeData()" style="color:var(--danger);">⚠️ Wipe Data</a>
 </div>
 
 <div class="navbar">
     <div style="display:flex; align-items:center;">
         <button class="hamburger" onclick="openNav()">&#9776;</button>
-        <img src="./icon-512.png" class="nav-logo" alt="logo">
-        <span style="font-weight:bold; font-size:1.4rem;">GARAGE PRO</span>
+        <span style="font-weight:bold; font-size:1.4rem; margin-left:15px;">GARAGE PRO</span>
     </div>
 </div>
 
@@ -101,9 +80,12 @@
         <label>VEHICLE</label>
         <select id="vehicleSelector" onchange="switchVehicle()"></select>
         <div style="display:flex; gap:20px;">
-            <button class="btn-inline" style="color:var(--primary);" onclick="toggleNewVehicleForm()">+ Add New</button>
-            <button id="deleteVehicleBtn" class="btn-inline hidden" style="color:var(--danger);" onclick="deleteCurrentVehicle()">- Delete Selected</button>
+            <button class="btn-inline" style="background:none; border:none; color:var(--primary); font-size:1.1rem; cursor:pointer;" onclick="toggleNewVehicleForm()">+ Add New</button>
         </div>
+    </div>
+
+    <div id="galleryContainer" class="hidden">
+        <div class="gallery-grid" id="mainGallery"></div>
     </div>
 
     <div id="newVehicleForm" class="card hidden">
@@ -112,8 +94,6 @@
     </div>
 
     <div id="mainContent" class="hidden">
-        <div class="gallery-grid" id="mainGallery"></div>
-
         <div class="specs-container">
             <div class="specs-header active" onclick="toggleSection(this, 'vSpecsContent')">Vehicle Specs</div>
             <div id="vSpecsContent" class="collapse-content show">
@@ -129,30 +109,18 @@
         <div class="specs-container">
             <div class="specs-header" onclick="toggleSection(this, 'torqueContent')">Torques & Capacities</div>
             <div id="torqueContent" class="collapse-content">
-                <table>
-                    <thead><tr><th>Item</th><th>Spec</th><th>Action</th></tr></thead>
-                    <tbody id="torqueBody"></tbody>
-                </table>
-                <div style="margin-top:10px; border-top:1px solid #ccc; padding-top:10px;">
-                    <input type="text" id="si" placeholder="Item (e.g. Oil Drain Plug)">
-                    <input type="text" id="sn" placeholder="Spec (e.g. 30 ft-lbs)">
-                    <button class="btn btn-success" onclick="addItem('specs')">+ Add Spec</button>
-                </div>
+                <table id="torqueTable"><thead><tr><th>Item</th><th>Spec</th><th></th></tr></thead><tbody id="torqueBody"></tbody></table>
+                <input type="text" id="si" placeholder="Item"><input type="text" id="sn" placeholder="Spec">
+                <button class="btn btn-success" onclick="addItem('specs')">+ Add Spec</button>
             </div>
         </div>
 
         <div class="specs-container">
             <div class="specs-header" onclick="toggleSection(this, 'partsContent')">Parts List</div>
             <div id="partsContent" class="collapse-content">
-                <table>
-                    <thead><tr><th>Part Name</th><th>Number</th><th>Action</th></tr></thead>
-                    <tbody id="partsBody"></tbody>
-                </table>
-                <div style="margin-top:10px; border-top:1px solid #ccc; padding-top:10px;">
-                    <input type="text" id="pi" placeholder="Part (e.g. Oil Filter)">
-                    <input type="text" id="pn" placeholder="Part # (e.g. LF16035)">
-                    <button class="btn btn-success" onclick="addItem('parts')">+ Add Part</button>
-                </div>
+                <table id="partsTable"><thead><tr><th>Part</th><th>Number</th><th></th></tr></thead><tbody id="partsBody"></tbody></table>
+                <input type="text" id="pi" placeholder="Part"><input type="text" id="pn" placeholder="Part #">
+                <button class="btn btn-success" onclick="addItem('parts')">+ Add Part</button>
             </div>
         </div>
 
@@ -160,9 +128,13 @@
             <h3 id="logTitle">New Service Entry</h3>
             <input type="number" id="log_miles" placeholder="Odometer">
             <input type="text" id="log_work" placeholder="Work Performed">
-            <textarea id="log_notes" rows="4" placeholder="Notes..."></textarea>
-            <button class="btn btn-success" id="saveLogBtn" onclick="addLog()">Save Entry</button>
-            <button class="btn hidden" id="cancelEditBtn" onclick="clearLogForm()" style="background:var(--grey); color:white; margin-top:10px;">Cancel Edit</button>
+            <textarea id="log_notes" rows="3" placeholder="Notes..."></textarea>
+            
+            <label style="font-size:1rem; color:var(--grey);">Entry Photo (Optional):</label>
+            <input type="file" id="log_img_input" accept="image/*" style="font-size:1rem;">
+            
+            <button class="btn btn-success" id="saveLogBtn" onclick="addLog()" style="margin-top:10px;">Save Entry</button>
+            <button class="btn hidden" id="cancelEditBtn" onclick="clearLogForm()" style="background:var(--grey); color:white; margin-top:10px;">Cancel</button>
         </div>
 
         <div id="logHistory"></div>
@@ -177,15 +149,17 @@
     function openNav() { document.getElementById("mySidenav").style.width = "300px"; }
     function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
     function toggleSection(header, id) { header.classList.toggle('active'); document.getElementById(id).classList.toggle('show'); }
-    function closeApp() { document.getElementById('exitModal').classList.remove('hidden'); closeNav(); }
-    function hideExitModal() { document.getElementById('exitModal').classList.add('hidden'); }
-    function executeClose() { window.close(); window.history.back(); }
 
     function init() {
         const s = document.getElementById('vehicleSelector');
         s.innerHTML = fleet.length ? '' : '<option value="">-- Select --</option>';
         fleet.forEach((v, i) => { s.innerHTML += `<option value="${i}">${v.name}</option>`; });
-        if (fleet.length > 0) { currentIdx = 0; s.value = 0; switchVehicle(); }
+        const last = localStorage.getItem('lastVehicleIdx');
+        if (fleet.length > 0) {
+            currentIdx = (last !== null && fleet[last]) ? parseInt(last) : 0;
+            s.value = currentIdx;
+            switchVehicle();
+        }
     }
 
     function toggleNewVehicleForm() { document.getElementById('newVehicleForm').classList.toggle('hidden'); }
@@ -199,8 +173,9 @@
 
     function switchVehicle() {
         currentIdx = parseInt(document.getElementById('vehicleSelector').value);
+        localStorage.setItem('lastVehicleIdx', currentIdx);
+        document.getElementById('galleryContainer').classList.remove('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
-        document.getElementById('deleteVehicleBtn').classList.remove('hidden');
         loadVSpecs(); renderMainGallery(); renderParts(); renderSpecs(); renderLogs();
     }
 
@@ -225,14 +200,16 @@
                     const MAX = 800; const scale = MAX / img.width;
                     canvas.width = MAX; canvas.height = img.height * scale;
                     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                    res(canvas.toDataURL('image/jpeg', 0.7));
+                    res(canvas.toDataURL('image/jpeg', 0.6));
                 };
             };
         });
     }
 
+    // MAIN VEHICLE GALLERY
     function renderMainGallery() {
         const g = document.getElementById('mainGallery'); g.innerHTML = '';
+        if(!fleet[currentIdx].images) fleet[currentIdx].images = [null,null,null,null,null,null];
         for (let i = 0; i < 6; i++) {
             const slot = document.createElement('div');
             const imgData = fleet[currentIdx].images[i];
@@ -254,7 +231,6 @@
     }
     function deleteMainImg(e, i) { e.stopPropagation(); fleet[currentIdx].images[i] = null; save(); renderMainGallery(); }
 
-    // FIX: Core Data Saving for Tables
     function addItem(type) {
         const i = document.getElementById(type==='parts'?'pi':'si'), v = document.getElementById(type==='parts'?'pn':'sn');
         if(!i.value || !v.value) return;
@@ -280,12 +256,15 @@
 
     function deleteItem(type, i) { fleet[currentIdx][type].splice(i, 1); save(); type==='parts' ? renderParts() : renderSpecs(); }
 
-    // Service Log CRUD
-    function addLog() {
-        const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes');
+    // LOGS WITH IMAGE SUPPORT
+    async function addLog() {
+        const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes'), imgFile = document.getElementById('log_img_input').files[0];
         if(!m.value || !w.value) return;
         
-        const entry = { miles: m.value, work: w.value, notes: n.value, date: editLogIdx > -1 ? fleet[currentIdx].logs[editLogIdx].date : new Date().toLocaleDateString() };
+        let imgData = editLogIdx > -1 ? fleet[currentIdx].logs[editLogIdx].image : null;
+        if(imgFile) imgData = await compressImage(imgFile);
+
+        const entry = { miles: m.value, work: w.value, notes: n.value, image: imgData, date: editLogIdx > -1 ? fleet[currentIdx].logs[editLogIdx].date : new Date().toLocaleDateString() };
         
         if(editLogIdx > -1) fleet[currentIdx].logs[editLogIdx] = entry;
         else fleet[currentIdx].logs.push(entry);
@@ -298,7 +277,7 @@
         (fleet[currentIdx].logs || []).slice().reverse().forEach((log, revIdx) => {
             const idx = (fleet[currentIdx].logs.length - 1) - revIdx;
             h.innerHTML += `<div class="log-entry">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div style="display:flex; justify-content:space-between;">
                     <div><span class="log-date">${log.date}</span> | <span class="mileage-badge">${parseInt(log.miles).toLocaleString()} MI</span></div>
                     <div style="display:flex; gap:5px;">
                         <button class="btn-edit-sm" onclick="editLog(${idx})">EDIT</button>
@@ -306,7 +285,8 @@
                     </div>
                 </div>
                 <div class="log-work-title">${log.work}</div>
-                <div style="font-size:1.2rem; background:#f9f9f9; padding:8px; border-radius:4px; white-space:pre-wrap;">${log.notes}</div>
+                <div style="font-size:1.1rem; color:#444; white-space:pre-wrap;">${log.notes}</div>
+                ${log.image ? `<img src="${log.image}" class="log-img-preview">` : ''}
             </div>`;
         });
     }
@@ -318,7 +298,6 @@
         document.getElementById('log_work').value = log.work;
         document.getElementById('log_notes').value = log.notes;
         document.getElementById('logTitle').innerText = "Editing Entry";
-        document.getElementById('saveLogBtn').innerText = "Update Entry";
         document.getElementById('cancelEditBtn').classList.remove('hidden');
     }
 
@@ -327,17 +306,16 @@
         document.getElementById('log_miles').value = '';
         document.getElementById('log_work').value = '';
         document.getElementById('log_notes').value = '';
+        document.getElementById('log_img_input').value = '';
         document.getElementById('logTitle').innerText = "New Service Entry";
-        document.getElementById('saveLogBtn').innerText = "Save Entry";
         document.getElementById('cancelEditBtn').classList.add('hidden');
     }
 
-    function deleteLog(idx) { if(confirm("Delete log?")) { fleet[currentIdx].logs.splice(idx, 1); save(); renderLogs(); } }
+    function deleteLog(idx) { if(confirm("Delete entry?")) { fleet[currentIdx].logs.splice(idx, 1); save(); renderLogs(); } }
     function save() { localStorage.setItem('garageFleet', JSON.stringify(fleet)); }
     function exportData() { const a = document.createElement('a'); a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fleet)); a.download = "fleet_backup.json"; a.click(); }
     function importData(e) { const r = new FileReader(); r.onload = (ev) => { fleet = JSON.parse(ev.target.result); save(); location.reload(); }; r.readAsText(e.target.files[0]); }
-    function wipeData() { if(confirm("Wipe all?")) { localStorage.clear(); location.reload(); } }
-    function deleteCurrentVehicle() { if(confirm("Delete vehicle?")) { fleet.splice(currentIdx, 1); save(); location.reload(); } }
+    function wipeData() { if(confirm("Wipe all data?")) { localStorage.clear(); location.reload(); } }
 
     init();
 </script>

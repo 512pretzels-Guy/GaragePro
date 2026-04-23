@@ -54,6 +54,7 @@
         .log-entry { border-left: 12px solid var(--royal); padding: 15px; margin-bottom: 20px; background: #fff; border-radius: 0 12px 12px 0; width: 100%; box-sizing: border-box; }
         .log-header { display: flex; justify-content: space-between; width: 100%; align-items: center; }
         .mileage-badge { background: var(--royal); color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+        .log-performed-by { font-size: 1rem; color: var(--grey); font-style: italic; margin-bottom: 5px; }
         
         .hidden { display: none !important; }
     </style>
@@ -132,6 +133,7 @@
             <h3 id="logTitle" style="margin-top:0;">New Service Entry</h3>
             <div class="field-group"><label>Odometer</label><input type="number" id="log_miles"></div>
             <div class="field-group"><label>Work Performed</label><input type="text" id="log_work"></div>
+            <div class="field-group"><label>Performed By</label><input type="text" id="log_by" placeholder="Mechanic name or Shop"></div>
             <div class="field-group"><label>Notes</label><textarea id="log_notes" rows="3"></textarea></div>
             
             <label style="font-weight:bold; color:var(--grey);">Entry Photos (Up to 6)</label>
@@ -213,7 +215,6 @@
         });
     }
 
-    // UPDATED: Universal Gallery Logic with explicit function binding
     function renderGallery(containerId, imageArray, type) {
         const g = document.getElementById(containerId); g.innerHTML = '';
         for (let i = 0; i < 6; i++) {
@@ -250,7 +251,6 @@
     function renderMainGallery() { renderGallery('mainGallery', fleet[currentIdx].images, 'main'); }
     function renderLogFormGallery() { renderGallery('logFormGallery', tempLogImages, 'log'); }
 
-    // DATA TABLES LOGIC
     function addItem(type) {
         const i = document.getElementById(type==='parts'?'pi':'si'), v = document.getElementById(type==='parts'?'pn':'sn');
         if(!i.value || !v.value) return;
@@ -276,11 +276,10 @@
 
     function deleteItem(type, i) { fleet[currentIdx][type].splice(i, 1); save(); type==='parts' ? renderParts() : renderSpecs(); }
 
-    // LOGS
     function addLog() {
-        const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes');
+        const m = document.getElementById('log_miles'), w = document.getElementById('log_work'), n = document.getElementById('log_notes'), b = document.getElementById('log_by');
         if(!m.value || !w.value) return;
-        const entry = { miles: m.value, work: w.value, notes: n.value, images: [...tempLogImages], date: editLogIdx > -1 ? fleet[currentIdx].logs[editLogIdx].date : new Date().toLocaleDateString() };
+        const entry = { miles: m.value, work: w.value, notes: n.value, performedBy: b.value, images: [...tempLogImages], date: editLogIdx > -1 ? fleet[currentIdx].logs[editLogIdx].date : new Date().toLocaleDateString() };
         if(editLogIdx > -1) fleet[currentIdx].logs[editLogIdx] = entry;
         else fleet[currentIdx].logs.push(entry);
         save(); clearLogForm(); renderLogs();
@@ -296,6 +295,7 @@
             h.innerHTML += `<div class="log-entry">
                 <div class="log-header"><span>${log.date}</span><span class="mileage-badge">${parseInt(log.miles).toLocaleString()} MI</span></div>
                 <div style="font-weight:800; font-size:1.6rem; margin:5px 0;">${log.work}</div>
+                ${log.performedBy ? `<div class="log-performed-by">Performed by: ${log.performedBy}</div>` : ''}
                 <div style="font-size:1.1rem; color:#444; white-space:pre-wrap; margin-bottom:10px;">${log.notes}</div>
                 ${imgHtml}
                 <div style="display:flex; gap:10px; margin-top:10px;">
@@ -312,6 +312,7 @@
         document.getElementById('log_miles').value = log.miles;
         document.getElementById('log_work').value = log.work;
         document.getElementById('log_notes').value = log.notes;
+        document.getElementById('log_by').value = log.performedBy || '';
         tempLogImages = [...log.images];
         document.getElementById('logTitle').innerText = "Editing Entry";
         document.getElementById('cancelEditBtn').classList.remove('hidden');
@@ -320,7 +321,7 @@
 
     function clearLogForm() {
         editLogIdx = -1; tempLogImages = [null,null,null,null,null,null];
-        document.getElementById('log_miles').value = ''; document.getElementById('log_work').value = ''; document.getElementById('log_notes').value = '';
+        document.getElementById('log_miles').value = ''; document.getElementById('log_work').value = ''; document.getElementById('log_notes').value = ''; document.getElementById('log_by').value = '';
         document.getElementById('logTitle').innerText = "New Service Entry"; document.getElementById('cancelEditBtn').classList.add('hidden');
         renderLogFormGallery();
     }

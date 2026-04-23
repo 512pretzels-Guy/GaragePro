@@ -50,6 +50,7 @@
         .btn-danger-sm { background: var(--danger); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; }
         .btn-edit-sm { background: var(--edit); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; }
         .btn-inline { background: none; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; padding: 10px 0; }
+        .btn-csv { background: var(--royal); color: white; margin-top: 15px; }
 
         .log-entry { border-left: 12px solid var(--royal); padding: 15px; margin-bottom: 20px; background: #fff; border-radius: 0 12px 12px 0; width: 100%; box-sizing: border-box; }
         .log-header { display: flex; justify-content: space-between; width: 100%; align-items: center; }
@@ -142,6 +143,8 @@
             
             <button class="btn btn-success" id="saveLogBtn" onclick="addLog()">Save Entry</button>
             <button class="btn hidden" id="cancelEditBtn" onclick="clearLogForm()" style="background:var(--grey); color:white;">Cancel Edit</button>
+            
+            <button class="btn btn-csv" onclick="downloadCSV()">Download Service Logs in CSV</button>
         </div>
 
         <div id="logHistory"></div>
@@ -331,6 +334,27 @@
         document.getElementById('log_miles').value = ''; document.getElementById('log_work').value = ''; document.getElementById('log_notes').value = ''; document.getElementById('log_by').value = '';
         document.getElementById('logTitle').innerText = "New Service Entry"; document.getElementById('cancelEditBtn').classList.add('hidden');
         renderLogFormGallery();
+    }
+
+    // CSV LOGIC (RESTORED)
+    function downloadCSV() {
+        if (!fleet[currentIdx] || !fleet[currentIdx].logs.length) { alert("No logs to download."); return; }
+        let csv = "Date,Odometer,Work Performed,Performed By,Notes\n";
+        fleet[currentIdx].logs.forEach(l => {
+            const row = [
+                l.date,
+                l.miles,
+                `"${(l.work || "").replace(/"/g, '""')}"`,
+                `"${(l.performedBy || "").replace(/"/g, '""')}"`,
+                `"${(l.notes || "").replace(/"/g, '""')}"`
+            ];
+            csv += row.join(",") + "\n";
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute("download", `${fleet[currentIdx].name}_service_logs.csv`);
+        link.click();
     }
 
     function deleteLog(idx) { if(confirm("Delete entry?")) { fleet[currentIdx].logs.splice(idx, 1); save(); renderLogs(); } }
